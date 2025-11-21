@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function SoCalMeetsWidget() {
   const [meets] = useState([
@@ -57,7 +57,7 @@ export default function SoCalMeetsWidget() {
   const renderMeet = ({ item }) => (
     <TouchableOpacity style={styles.meetItem}>
       <View style={[styles.meetIcon, { backgroundColor: getTypeColor(item.type) + '20' }]}>
-        <Ionicons name={getTypeIcon(item.type)} size={28} color={getTypeColor(item.type)} />
+        <Icon name={getTypeIcon(item.type)} size={28} color={getTypeColor(item.type)} />
       </View>
 
       <View style={styles.meetContent}>
@@ -70,21 +70,21 @@ export default function SoCalMeetsWidget() {
 
         <View style={styles.meetDetails}>
           <View style={styles.detailRow}>
-            <Ionicons name="calendar" size={14} color="#666" />
+            <Icon name="calendar" size={14} color="#666" />
             <Text style={styles.detailText}>{item.date}</Text>
-            <Ionicons name="time" size={14} color="#666" style={styles.detailIcon} />
+            <Icon name="time" size={14} color="#666" style={styles.detailIcon} />
             <Text style={styles.detailText}>{item.time}</Text>
           </View>
 
           <View style={styles.detailRow}>
-            <Ionicons name="location" size={14} color="#666" />
+            <Icon name="location" size={14} color="#666" />
             <Text style={styles.detailText}>{item.location}</Text>
             <Text style={styles.distance}>({item.distance})</Text>
           </View>
 
           <View style={styles.meetFooter}>
             <View style={styles.attendees}>
-              <Ionicons name="people" size={16} color="#007AFF" />
+              <Icon name="people" size={16} color="#007AFF" />
               <Text style={styles.attendeesText}>{item.attendees} attending</Text>
             </View>
             <TouchableOpacity style={styles.rsvpButton}>
@@ -104,7 +104,7 @@ export default function SoCalMeetsWidget() {
           <Text style={styles.subtitle}>Nearby events in Southern California</Text>
         </View>
         <TouchableOpacity>
-          <Ionicons name="filter" size={24} color="#007AFF" />
+          <Icon name="filter" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
@@ -124,7 +124,7 @@ export default function SoCalMeetsWidget() {
       />
 
       <TouchableOpacity style={styles.createMeetButton}>
-        <Ionicons name="add-circle" size={20} color="#fff" />
+        <Icon name="add-circle" size={20} color="#fff" />
         <Text style={styles.createMeetButtonText}>Create New Meet</Text>
       </TouchableOpacity>
     </View>

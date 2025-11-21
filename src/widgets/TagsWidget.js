@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function TagsWidget() {
   const [selectedTags, setSelectedTags] = useState(['org']);
@@ -50,14 +50,14 @@ export default function TagsWidget() {
               {tag.name}
             </Text>
             {selectedTags.includes(tag.id) && (
-              <Ionicons name="close-circle" size={16} color="#fff" />
+              <Icon name="close-circle" size={16} color="#fff" />
             )}
           </TouchableOpacity>
         ))}
       </ScrollView>
 
       <View style={styles.infoBox}>
-        <Ionicons name="information-circle" size={20} color="#007AFF" />
+        <Icon name="information-circle" size={20} color="#007AFF" />
         <Text style={styles.infoText}>
           Tags help members identify your roles and permissions in the community.
         </Text>
@@ -78,14 +78,14 @@ export default function TagsWidget() {
           return (
             <View key={tagId} style={styles.permissionGroup}>
               <View style={[styles.permissionHeader, { backgroundColor: tag.color + '20' }]}>
-                <Ionicons name={tag.icon} size={16} color={tag.color} />
+                <Icon name={tag.icon} size={16} color={tag.color} />
                 <Text style={[styles.permissionHeaderText, { color: tag.color }]}>
                   {tag.name}
                 </Text>
               </View>
               {permissions[tagId]?.map((perm, index) => (
                 <View key={index} style={styles.permissionItem}>
-                  <Ionicons name="checkmark" size={16} color="#4CAF50" />
+                  <Icon name="checkmark" size={16} color="#4CAF50" />
                   <Text style={styles.permissionText}>{perm}</Text>
                 </View>
               ))}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import SubChatWidget from '../widgets/SubChatWidget';
 import CardsWidget from '../widgets/CardsWidget';
 
@@ -56,12 +56,12 @@ export default function ChatsScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Group Chats</Text>
         <TouchableOpacity style={styles.addButton}>
-          <Ionicons name="add-circle" size={28} color="#007AFF" />
+          <Icon name="add-circle" size={28} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
+        <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search chats..."

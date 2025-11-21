@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import MusicControlWidget from '../widgets/MusicControlWidget';
 
 export default function CommsDrivingScreen() {
@@ -40,7 +40,7 @@ export default function CommsDrivingScreen() {
           style={[styles.drivingToggle, isDriving && styles.drivingActive]}
           onPress={() => setIsDriving(!isDriving)}
         >
-          <Ionicons name={isDriving ? 'car' : 'car-outline'} size={24} color="#fff" />
+          <Icon name={isDriving ? 'car' : 'car-outline'} size={24} color="#fff" />
           <Text style={styles.drivingText}>
             {isDriving ? 'Active' : 'Inactive'}
           </Text>
@@ -49,7 +49,7 @@ export default function CommsDrivingScreen() {
 
       {isDriving && (
         <View style={styles.warningBanner}>
-          <Ionicons name="warning" size={20} color="#FF9800" />
+          <Icon name="warning" size={20} color="#FF9800" />
           <Text style={styles.warningText}>Focus on the road - Voice commands active</Text>
         </View>
       )}
@@ -63,7 +63,7 @@ export default function CommsDrivingScreen() {
               style={styles.quickMessageButton}
               onPress={() => sendQuickMessage(item.text)}
             >
-              <Ionicons name={item.icon} size={32} color="#007AFF" />
+              <Icon name={item.icon} size={32} color="#007AFF" />
               <Text style={styles.quickMessageText}>{item.text}</Text>
             </TouchableOpacity>
           ))}
@@ -75,18 +75,18 @@ export default function CommsDrivingScreen() {
         {activeCall ? (
           <View style={styles.activeCallContainer}>
             <View style={styles.activeCallHeader}>
-              <Ionicons name="call" size={24} color="#4CAF50" />
+              <Icon name="call" size={24} color="#4CAF50" />
               <Text style={styles.activeCallText}>Connected to {activeCall.name}</Text>
             </View>
             <View style={styles.callControls}>
               <TouchableOpacity style={styles.muteButton}>
-                <Ionicons name="mic-off" size={24} color="#fff" />
+                <Icon name="mic-off" size={24} color="#fff" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.speakerButton}>
-                <Ionicons name="volume-high" size={24} color="#fff" />
+                <Icon name="volume-high" size={24} color="#fff" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.endCallButton} onPress={endCall}>
-                <Ionicons name="call" size={24} color="#fff" />
+                <Icon name="call" size={24} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
@@ -103,7 +103,7 @@ export default function CommsDrivingScreen() {
                   <Text style={styles.callName}>{item.name}</Text>
                   <Text style={styles.callMembers}>{item.members} members</Text>
                 </View>
-                <Ionicons name="call" size={24} color="#007AFF" />
+                <Icon name="call" size={24} color="#007AFF" />
               </TouchableOpacity>
             )}
           />

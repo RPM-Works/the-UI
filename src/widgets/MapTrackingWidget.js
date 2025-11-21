@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function MapTrackingWidget({ members }) {
   const [expanded, setExpanded] = useState(false);
@@ -16,7 +16,7 @@ export default function MapTrackingWidget({ members }) {
         onPress={() => setExpanded(!expanded)}
       >
         <View style={styles.headerLeft}>
-          <Ionicons name="people" size={20} color="#007AFF" />
+          <Icon name="people" size={20} color="#007AFF" />
           <Text style={styles.title}>Group Members</Text>
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{members.length}</Text>

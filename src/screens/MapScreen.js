@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Platform } from 'react-native';
 import MapView, { Marker, Circle } from 'react-native-maps';
-import { Ionicons } from '@expo/vector-icons';
-import * as Location from 'expo-location';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Geolocation from 'react-native-geolocation-service';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import MapTrackingWidget from '../widgets/MapTrackingWidget';
 import MusicControlWidget from '../widgets/MusicControlWidget';
 
@@ -16,21 +17,38 @@ export default function MapScreen() {
   const [showMusicControl, setShowMusicControl] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        console.log('Permission to access location was denied');
-        return;
-      }
+    const requestLocationPermission = async () => {
+      try {
+        const permission = Platform.OS === 'ios'
+          ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+          : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      });
-    })();
+        const result = await request(permission);
+
+        if (result === RESULTS.GRANTED) {
+          Geolocation.getCurrentPosition(
+            (position) => {
+              setLocation({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              });
+            },
+            (error) => {
+              console.log('Error getting location:', error);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+          );
+        } else {
+          console.log('Permission to access location was denied');
+        }
+      } catch (error) {
+        console.log('Error requesting location permission:', error);
+      }
+    };
+
+    requestLocationPermission();
   }, []);
 
   const getMarkerColor = (status) => {
@@ -67,7 +85,7 @@ export default function MapScreen() {
         style={styles.musicButton}
         onPress={() => setShowMusicControl(!showMusicControl)}
       >
-        <Ionicons name="musical-notes" size={24} color="#fff" />
+        <Icon name="musical-notes" size={24} color="#fff" />
       </TouchableOpacity>
 
       {showMusicControl && (

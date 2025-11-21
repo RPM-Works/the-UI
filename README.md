@@ -1,6 +1,6 @@
 # the-UI
 
-A React Native mobile app with Expo for car enthusiast community management.
+A React Native mobile app for car enthusiast community management.
 
 ## Features
 
@@ -55,10 +55,11 @@ A React Native mobile app with Expo for car enthusiast community management.
 ## Setup & Installation
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - npm or yarn
-- Expo CLI: `npm install -g expo-cli`
-- Expo Go app on your mobile device (iOS/Android)
+- React Native CLI: `npm install -g react-native-cli`
+- For iOS: Xcode, CocoaPods
+- For Android: Android Studio, Android SDK
 
 ### Installation
 
@@ -73,27 +74,39 @@ cd the-UI
 npm install
 ```
 
-3. Start the development server:
+3. For iOS (macOS only):
 ```bash
-npm start
+cd ios && pod install && cd ..
 ```
 
-4. Scan the QR code with:
-   - **iOS**: Camera app
-   - **Android**: Expo Go app
+4. Run the app:
+
+**Android:**
+```bash
+npm run android
+```
+
+**iOS:**
+```bash
+npm run ios
+```
 
 ## Available Scripts
 
-- `npm start` - Start Expo development server
+- `npm start` - Start Metro bundler
 - `npm run android` - Run on Android emulator/device
 - `npm run ios` - Run on iOS simulator/device
-- `npm run web` - Run in web browser
+- `npm test` - Run tests
+- `npm run lint` - Run linter
 
 ## Project Structure
 
 ```
 the-UI/
-├── App.js                      # Main app entry with navigation
+├── index.js                    # App entry point
+├── App.js                      # Main app with navigation
+├── metro.config.js             # Metro bundler configuration
+├── babel.config.js             # Babel configuration
 ├── src/
 │   ├── screens/               # Main app screens
 │   │   ├── WelcomeScreen.js
@@ -117,6 +130,8 @@ the-UI/
 │   │   └── TurboSoundWidget.js
 │   ├── components/            # Shared components (to be added)
 │   └── utils/                 # Utility functions (to be added)
+├── android/                   # Android native files
+├── ios/                       # iOS native files
 ├── package.json
 └── app.json
 
@@ -125,13 +140,13 @@ the-UI/
 ## Technologies Used
 
 - **React Native** - Cross-platform mobile framework
-- **Expo** - Development and build platform
 - **React Navigation** - Navigation library (Bottom Tabs + Stack)
 - **React Native Maps** - Map integration
-- **Expo Location** - GPS and location services
-- **Expo Calendar** - Calendar integration
-- **Expo AV** - Audio/video playback
+- **React Native Geolocation Service** - GPS and location services
+- **React Native Vector Icons** - Icon library (Ionicons)
+- **React Native Permissions** - Permission handling
 - **AsyncStorage** - Local data persistence
+- **React Native Community Slider** - Slider component
 
 ## Permissions Required
 
@@ -142,6 +157,9 @@ The app requires the following permissions:
 
 ## Next Steps / TODO
 
+- [ ] Generate Android and iOS native projects (run `npx react-native init` if needed)
+- [ ] Configure react-native-vector-icons for iOS and Android
+- [ ] Set up location permissions in AndroidManifest.xml and Info.plist
 - [ ] Connect to backend API
 - [ ] Implement real authentication
 - [ ] Add push notifications

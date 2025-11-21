@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function SubChatWidget({ chat, onBack }) {
   const [message, setMessage] = useState('');
@@ -37,7 +37,7 @@ export default function SubChatWidget({ chat, onBack }) {
         <Text style={styles.messageText}>{item.text}</Text>
         {item.subChat && (
           <View style={styles.subChatTag}>
-            <Ionicons name="chatbubbles" size={12} color="#007AFF" />
+            <Icon name="chatbubbles" size={12} color="#007AFF" />
             <Text style={styles.subChatTagText}>{item.subChat}</Text>
           </View>
         )}
@@ -48,13 +48,13 @@ export default function SubChatWidget({ chat, onBack }) {
   const renderSubChat = ({ item }) => (
     <TouchableOpacity style={styles.subChatItem}>
       <View style={styles.subChatIcon}>
-        <Ionicons name="chatbubbles" size={20} color="#007AFF" />
+        <Icon name="chatbubbles" size={20} color="#007AFF" />
       </View>
       <View style={styles.subChatInfo}>
         <Text style={styles.subChatName}>{item.name}</Text>
         <Text style={styles.subChatDetails}>{item.members} members · {item.messages} messages</Text>
       </View>
-      <Ionicons name="chevron-forward" size={20} color="#999" />
+      <Icon name="chevron-forward" size={20} color="#999" />
     </TouchableOpacity>
   );
 
@@ -66,7 +66,7 @@ export default function SubChatWidget({ chat, onBack }) {
     >
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#007AFF" />
+          <Icon name="arrow-back" size={24} color="#007AFF" />
         </TouchableOpacity>
         <View style={styles.chatHeaderInfo}>
           <Text style={styles.chatName}>{chat.name}</Text>
@@ -76,7 +76,7 @@ export default function SubChatWidget({ chat, onBack }) {
           style={styles.subChatButton}
           onPress={() => setShowSubChats(!showSubChats)}
         >
-          <Ionicons name="chatbubbles" size={24} color="#007AFF" />
+          <Icon name="chatbubbles" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
@@ -85,7 +85,7 @@ export default function SubChatWidget({ chat, onBack }) {
           <View style={styles.subChatsHeader}>
             <Text style={styles.subChatsTitle}>Sub Chats</Text>
             <TouchableOpacity>
-              <Ionicons name="add-circle" size={24} color="#007AFF" />
+              <Icon name="add-circle" size={24} color="#007AFF" />
             </TouchableOpacity>
           </View>
           <FlatList
@@ -106,7 +106,7 @@ export default function SubChatWidget({ chat, onBack }) {
 
           <View style={styles.inputContainer}>
             <TouchableOpacity style={styles.attachButton}>
-              <Ionicons name="add-circle" size={28} color="#007AFF" />
+              <Icon name="add-circle" size={28} color="#007AFF" />
             </TouchableOpacity>
             <TextInput
               style={styles.input}
@@ -116,7 +116,7 @@ export default function SubChatWidget({ chat, onBack }) {
               multiline
             />
             <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-              <Ionicons name="send" size={20} color="#fff" />
+              <Icon name="send" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
         </>

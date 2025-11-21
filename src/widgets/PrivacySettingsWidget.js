@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function PrivacySettingsWidget() {
   const [settings, setSettings] = useState({
@@ -51,7 +51,7 @@ export default function PrivacySettingsWidget() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="lock-closed" size={24} color="#007AFF" />
+        <Icon name="lock-closed" size={24} color="#007AFF" />
         <Text style={styles.title}>Privacy & Security</Text>
       </View>
 
@@ -59,7 +59,7 @@ export default function PrivacySettingsWidget() {
         {privacyOptions.map((option) => (
           <View key={option.key} style={styles.settingRow}>
             <View style={styles.settingIcon}>
-              <Ionicons name={option.icon} size={20} color="#007AFF" />
+              <Icon name={option.icon} size={20} color="#007AFF" />
             </View>
             <View style={styles.settingInfo}>
               <Text style={styles.settingTitle}>{option.title}</Text>
@@ -76,11 +76,11 @@ export default function PrivacySettingsWidget() {
 
       <TouchableOpacity style={styles.advancedButton}>
         <Text style={styles.advancedButtonText}>Advanced Privacy Settings</Text>
-        <Ionicons name="chevron-forward" size={20} color="#007AFF" />
+        <Icon name="chevron-forward" size={20} color="#007AFF" />
       </TouchableOpacity>
 
       <View style={styles.warningBox}>
-        <Ionicons name="warning" size={20} color="#FF9800" />
+        <Icon name="warning" size={20} color="#FF9800" />
         <Text style={styles.warningText}>
           Disabling location sharing will prevent you from appearing on group maps and receiving location-based event notifications.
         </Text>
