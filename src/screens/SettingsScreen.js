@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import PrivacySettingsWidget from '../widgets/PrivacySettingsWidget';
 import TurboSoundWidget from '../widgets/TurboSoundWidget';
 
@@ -12,7 +12,7 @@ export default function SettingsScreen({ navigation }) {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
         <View style={{ width: 24 }} />
@@ -23,7 +23,7 @@ export default function SettingsScreen({ navigation }) {
 
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
-            <Ionicons name="notifications" size={24} color="#007AFF" />
+            <Icon name="notifications" size={24} color="#007AFF" />
             <Text style={styles.settingText}>Notifications</Text>
           </View>
           <Switch
@@ -35,7 +35,7 @@ export default function SettingsScreen({ navigation }) {
 
         <View style={styles.settingRow}>
           <View style={styles.settingInfo}>
-            <Ionicons name="location" size={24} color="#007AFF" />
+            <Icon name="location" size={24} color="#007AFF" />
             <Text style={styles.settingText}>Location Sharing</Text>
           </View>
           <Switch
@@ -51,17 +51,17 @@ export default function SettingsScreen({ navigation }) {
 
       <View style={styles.section}>
         <TouchableOpacity style={styles.button}>
-          <Ionicons name="information-circle" size={24} color="#007AFF" />
+          <Icon name="information-circle" size={24} color="#007AFF" />
           <Text style={styles.buttonText}>About</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button}>
-          <Ionicons name="help-circle" size={24} color="#007AFF" />
+          <Icon name="help-circle" size={24} color="#007AFF" />
           <Text style={styles.buttonText}>Help & Support</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.button, styles.dangerButton]}>
-          <Ionicons name="log-out" size={24} color="#FF3B30" />
+          <Icon name="log-out" size={24} color="#FF3B30" />
           <Text style={[styles.buttonText, styles.dangerText]}>Logout</Text>
         </TouchableOpacity>
       </View>

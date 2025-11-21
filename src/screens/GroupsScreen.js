@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import FBGroupsWidget from '../widgets/FBGroupsWidget';
 import BlogsNewsWidget from '../widgets/BlogsNewsWidget';
 import CalendarWidget from '../widgets/CalendarWidget';
@@ -21,7 +21,7 @@ export default function GroupsScreen() {
           style={[styles.tab, activeTab === 'groups' && styles.activeTab]}
           onPress={() => setActiveTab('groups')}
         >
-          <Ionicons name="people" size={20} color={activeTab === 'groups' ? '#007AFF' : '#999'} />
+          <Icon name="people" size={20} color={activeTab === 'groups' ? '#007AFF' : '#999'} />
           <Text style={[styles.tabText, activeTab === 'groups' && styles.activeTabText]}>Groups</Text>
         </TouchableOpacity>
 
@@ -29,7 +29,7 @@ export default function GroupsScreen() {
           style={[styles.tab, activeTab === 'news' && styles.activeTab]}
           onPress={() => setActiveTab('news')}
         >
-          <Ionicons name="newspaper" size={20} color={activeTab === 'news' ? '#007AFF' : '#999'} />
+          <Icon name="newspaper" size={20} color={activeTab === 'news' ? '#007AFF' : '#999'} />
           <Text style={[styles.tabText, activeTab === 'news' && styles.activeTabText]}>News</Text>
         </TouchableOpacity>
 
@@ -37,7 +37,7 @@ export default function GroupsScreen() {
           style={[styles.tab, activeTab === 'events' && styles.activeTab]}
           onPress={() => setActiveTab('events')}
         >
-          <Ionicons name="calendar" size={20} color={activeTab === 'events' ? '#007AFF' : '#999'} />
+          <Icon name="calendar" size={20} color={activeTab === 'events' ? '#007AFF' : '#999'} />
           <Text style={[styles.tabText, activeTab === 'events' && styles.activeTabText]}>Events</Text>
         </TouchableOpacity>
       </View>

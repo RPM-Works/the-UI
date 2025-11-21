@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Slider } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function MusicControlWidget({ onClose, compact = false }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -20,18 +21,18 @@ export default function MusicControlWidget({ onClose, compact = false }) {
     return (
       <View style={styles.compactContainer}>
         <View style={styles.compactInfo}>
-          <Ionicons name="musical-notes" size={20} color="#007AFF" />
+          <Icon name="musical-notes" size={20} color="#007AFF" />
           <Text style={styles.compactText} numberOfLines={1}>{currentSong.title}</Text>
         </View>
         <View style={styles.compactControls}>
           <TouchableOpacity onPress={() => {}}>
-            <Ionicons name="play-skip-back" size={20} color="#007AFF" />
+            <Icon name="play-skip-back" size={20} color="#007AFF" />
           </TouchableOpacity>
           <TouchableOpacity onPress={togglePlay} style={styles.compactPlayButton}>
-            <Ionicons name={isPlaying ? 'pause' : 'play'} size={20} color="#fff" />
+            <Icon name={isPlaying ? 'pause' : 'play'} size={20} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => {}}>
-            <Ionicons name="play-skip-forward" size={20} color="#007AFF" />
+            <Icon name="play-skip-forward" size={20} color="#007AFF" />
           </TouchableOpacity>
         </View>
       </View>
@@ -44,13 +45,13 @@ export default function MusicControlWidget({ onClose, compact = false }) {
         <Text style={styles.title}>Now Playing</Text>
         {onClose && (
           <TouchableOpacity onPress={onClose}>
-            <Ionicons name="close" size={24} color="#666" />
+            <Icon name="close" size={24} color="#666" />
           </TouchableOpacity>
         )}
       </View>
 
       <View style={styles.albumArt}>
-        <Ionicons name="disc" size={80} color="#007AFF" />
+        <Icon name="disc" size={80} color="#007AFF" />
       </View>
 
       <View style={styles.songInfo}>
@@ -79,24 +80,24 @@ export default function MusicControlWidget({ onClose, compact = false }) {
 
       <View style={styles.controls}>
         <TouchableOpacity>
-          <Ionicons name="shuffle" size={24} color="#666" />
+          <Icon name="shuffle" size={24} color="#666" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name="play-skip-back" size={32} color="#007AFF" />
+          <Icon name="play-skip-back" size={32} color="#007AFF" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.playButton} onPress={togglePlay}>
-          <Ionicons name={isPlaying ? 'pause' : 'play'} size={32} color="#fff" />
+          <Icon name={isPlaying ? 'pause' : 'play'} size={32} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name="play-skip-forward" size={32} color="#007AFF" />
+          <Icon name="play-skip-forward" size={32} color="#007AFF" />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Ionicons name="repeat" size={24} color="#666" />
+          <Icon name="repeat" size={24} color="#666" />
         </TouchableOpacity>
       </View>
 
       <View style={styles.volumeContainer}>
-        <Ionicons name="volume-low" size={20} color="#666" />
+        <Icon name="volume-low" size={20} color="#666" />
         <Slider
           style={styles.volumeSlider}
           value={volume}
@@ -106,7 +107,7 @@ export default function MusicControlWidget({ onClose, compact = false }) {
           minimumTrackTintColor="#007AFF"
           maximumTrackTintColor="#ddd"
         />
-        <Ionicons name="volume-high" size={20} color="#666" />
+        <Icon name="volume-high" size={20} color="#666" />
       </View>
     </View>
   );

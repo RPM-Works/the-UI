@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Slider } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Slider from '@react-native-community/slider';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function TurboSoundWidget() {
   const [enabled, setEnabled] = useState(true);
@@ -23,7 +24,7 @@ export default function TurboSoundWidget() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Ionicons name="volume-high" size={24} color="#007AFF" />
+          <Icon name="volume-high" size={24} color="#007AFF" />
           <Text style={styles.title}>Turbo Sound Opening</Text>
         </View>
         <TouchableOpacity
@@ -52,7 +53,7 @@ export default function TurboSoundWidget() {
                 ]}
                 onPress={() => setSelectedSound(sound.id)}
               >
-                <Ionicons
+                <Icon
                   name={sound.icon}
                   size={32}
                   color={selectedSound === sound.id ? '#007AFF' : '#666'}
@@ -64,7 +65,7 @@ export default function TurboSoundWidget() {
                   {sound.name}
                 </Text>
                 {selectedSound === sound.id && (
-                  <Ionicons name="checkmark-circle" size={20} color="#007AFF" />
+                  <Icon name="checkmark-circle" size={20} color="#007AFF" />
                 )}
               </TouchableOpacity>
             ))}
@@ -73,7 +74,7 @@ export default function TurboSoundWidget() {
           <View style={styles.volumeSection}>
             <Text style={styles.volumeLabel}>Volume</Text>
             <View style={styles.volumeControl}>
-              <Ionicons name="volume-low" size={20} color="#666" />
+              <Icon name="volume-low" size={20} color="#666" />
               <Slider
                 style={styles.volumeSlider}
                 value={volume}
@@ -83,31 +84,31 @@ export default function TurboSoundWidget() {
                 minimumTrackTintColor="#007AFF"
                 maximumTrackTintColor="#ddd"
               />
-              <Ionicons name="volume-high" size={20} color="#666" />
+              <Icon name="volume-high" size={20} color="#666" />
             </View>
           </View>
 
           <TouchableOpacity style={styles.testButton} onPress={testSound}>
-            <Ionicons name="play-circle" size={24} color="#fff" />
+            <Icon name="play-circle" size={24} color="#fff" />
             <Text style={styles.testButtonText}>Test Sound</Text>
           </TouchableOpacity>
 
           <View style={styles.triggerSection}>
             <Text style={styles.triggerTitle}>Play Sound On:</Text>
             <TouchableOpacity style={styles.triggerOption}>
-              <Ionicons name="rocket" size={20} color="#007AFF" />
+              <Icon name="rocket" size={20} color="#007AFF" />
               <Text style={styles.triggerText}>App Launch</Text>
-              <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+              <Icon name="checkmark-circle" size={24} color="#4CAF50" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.triggerOption}>
-              <Ionicons name="car" size={20} color="#007AFF" />
+              <Icon name="car" size={20} color="#007AFF" />
               <Text style={styles.triggerText}>Driving Mode Start</Text>
-              <Ionicons name="checkmark-circle" size={24} color="#4CAF50" />
+              <Icon name="checkmark-circle" size={24} color="#4CAF50" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.triggerOption}>
-              <Ionicons name="notifications" size={20} color="#007AFF" />
+              <Icon name="notifications" size={20} color="#007AFF" />
               <Text style={styles.triggerText}>Important Notifications</Text>
-              <Ionicons name="ellipse-outline" size={24} color="#ccc" />
+              <Icon name="ellipse-outline" size={24} color="#ccc" />
             </TouchableOpacity>
           </View>
         </>

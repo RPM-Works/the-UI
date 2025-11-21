@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CalendarWidget() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -50,7 +50,7 @@ export default function CalendarWidget() {
       <View style={styles.header}>
         <Text style={styles.title}>Events Calendar</Text>
         <TouchableOpacity>
-          <Ionicons name="add-circle" size={24} color="#007AFF" />
+          <Icon name="add-circle" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
@@ -58,7 +58,7 @@ export default function CalendarWidget() {
         <TouchableOpacity
           onPress={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() - 1, 1))}
         >
-          <Ionicons name="chevron-back" size={24} color="#007AFF" />
+          <Icon name="chevron-back" size={24} color="#007AFF" />
         </TouchableOpacity>
         <Text style={styles.monthYear}>
           {monthNames[selectedDate.getMonth()]} {selectedDate.getFullYear()}
@@ -66,7 +66,7 @@ export default function CalendarWidget() {
         <TouchableOpacity
           onPress={() => setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 1))}
         >
-          <Ionicons name="chevron-forward" size={24} color="#007AFF" />
+          <Icon name="chevron-forward" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
@@ -109,18 +109,18 @@ export default function CalendarWidget() {
           {getEventsForSelectedDate().map(event => (
             <View key={event.id} style={styles.eventItem}>
               <View style={styles.eventTime}>
-                <Ionicons name="time" size={16} color="#007AFF" />
+                <Icon name="time" size={16} color="#007AFF" />
                 <Text style={styles.eventTimeText}>{event.time}</Text>
               </View>
               <View style={styles.eventDetails}>
                 <Text style={styles.eventTitle}>{event.title}</Text>
                 <View style={styles.eventLocation}>
-                  <Ionicons name="location" size={14} color="#666" />
+                  <Icon name="location" size={14} color="#666" />
                   <Text style={styles.eventLocationText}>{event.location}</Text>
                 </View>
               </View>
               <TouchableOpacity>
-                <Ionicons name="chevron-forward" size={20} color="#999" />
+                <Icon name="chevron-forward" size={20} color="#999" />
               </TouchableOpacity>
             </View>
           ))}

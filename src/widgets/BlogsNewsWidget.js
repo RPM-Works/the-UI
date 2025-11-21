@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function BlogsNewsWidget() {
   const [articles] = useState([
@@ -55,7 +55,7 @@ export default function BlogsNewsWidget() {
   const renderArticle = ({ item }) => (
     <TouchableOpacity style={styles.articleItem}>
       <View style={styles.articleImage}>
-        <Ionicons name="newspaper" size={40} color="#007AFF" />
+        <Icon name="newspaper" size={40} color="#007AFF" />
       </View>
       <View style={styles.articleContent}>
         <View style={[styles.categoryBadge, { backgroundColor: getCategoryColor(item.category) }]}>
@@ -69,11 +69,11 @@ export default function BlogsNewsWidget() {
         </View>
         <View style={styles.articleStats}>
           <View style={styles.statItem}>
-            <Ionicons name="heart" size={16} color="#FF3B30" />
+            <Icon name="heart" size={16} color="#FF3B30" />
             <Text style={styles.statText}>{item.likes}</Text>
           </View>
           <View style={styles.statItem}>
-            <Ionicons name="chatbubble" size={16} color="#007AFF" />
+            <Icon name="chatbubble" size={16} color="#007AFF" />
             <Text style={styles.statText}>{item.comments}</Text>
           </View>
         </View>
@@ -86,7 +86,7 @@ export default function BlogsNewsWidget() {
       <View style={styles.header}>
         <Text style={styles.title}>News & Blogs</Text>
         <TouchableOpacity>
-          <Ionicons name="filter" size={24} color="#007AFF" />
+          <Icon name="filter" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 

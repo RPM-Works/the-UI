@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function FBGroupsWidget() {
   const [groups] = useState([
@@ -18,12 +18,12 @@ export default function FBGroupsWidget() {
   const renderGroup = ({ item }) => (
     <View style={styles.groupItem}>
       <View style={styles.groupIcon}>
-        <Ionicons name="people-circle" size={50} color="#007AFF" />
+        <Icon name="people-circle" size={50} color="#007AFF" />
       </View>
       <View style={styles.groupInfo}>
         <Text style={styles.groupName}>{item.name}</Text>
         <View style={styles.groupMeta}>
-          <Ionicons name="people" size={14} color="#666" />
+          <Icon name="people" size={14} color="#666" />
           <Text style={styles.metaText}>{item.members} members</Text>
           <View style={[
             styles.activityDot,
@@ -53,7 +53,7 @@ export default function FBGroupsWidget() {
       <View style={styles.header}>
         <Text style={styles.title}>Facebook Groups</Text>
         <TouchableOpacity>
-          <Ionicons name="search" size={24} color="#007AFF" />
+          <Icon name="search" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
@@ -66,7 +66,7 @@ export default function FBGroupsWidget() {
 
       <TouchableOpacity style={styles.browseButton}>
         <Text style={styles.browseButtonText}>Browse More Groups</Text>
-        <Ionicons name="chevron-forward" size={20} color="#007AFF" />
+        <Icon name="chevron-forward" size={20} color="#007AFF" />
       </TouchableOpacity>
     </View>
   );

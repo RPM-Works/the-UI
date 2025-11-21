@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import CardsWidget from '../widgets/CardsWidget';
 
 export default function ProfileScreen({ navigation }) {
@@ -18,10 +18,10 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.header}>
         <View style={styles.profileImageContainer}>
           <View style={styles.profileImage}>
-            <Ionicons name="person" size={50} color="#007AFF" />
+            <Icon name="person" size={50} color="#007AFF" />
           </View>
           <TouchableOpacity style={styles.editButton}>
-            <Ionicons name="camera" size={20} color="#fff" />
+            <Icon name="camera" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -55,19 +55,19 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>My Activity</Text>
         <TouchableOpacity style={styles.menuItem}>
-          <Ionicons name="calendar" size={24} color="#007AFF" />
+          <Icon name="calendar" size={24} color="#007AFF" />
           <Text style={styles.menuText}>My Events</Text>
-          <Ionicons name="chevron-forward" size={24} color="#999" />
+          <Icon name="chevron-forward" size={24} color="#999" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
-          <Ionicons name="images" size={24} color="#007AFF" />
+          <Icon name="images" size={24} color="#007AFF" />
           <Text style={styles.menuText}>My Photos</Text>
-          <Ionicons name="chevron-forward" size={24} color="#999" />
+          <Icon name="chevron-forward" size={24} color="#999" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
-          <Ionicons name="car-sport" size={24} color="#007AFF" />
+          <Icon name="car-sport" size={24} color="#007AFF" />
           <Text style={styles.menuText}>My Rides</Text>
-          <Ionicons name="chevron-forward" size={24} color="#999" />
+          <Icon name="chevron-forward" size={24} color="#999" />
         </TouchableOpacity>
       </View>
 
@@ -76,9 +76,9 @@ export default function ProfileScreen({ navigation }) {
           style={styles.settingsButton}
           onPress={() => navigation.navigate('Settings')}
         >
-          <Ionicons name="settings" size={24} color="#007AFF" />
+          <Icon name="settings" size={24} color="#007AFF" />
           <Text style={styles.settingsText}>Settings</Text>
-          <Ionicons name="chevron-forward" size={24} color="#999" />
+          <Icon name="chevron-forward" size={24} color="#999" />
         </TouchableOpacity>
       </View>
     </ScrollView>

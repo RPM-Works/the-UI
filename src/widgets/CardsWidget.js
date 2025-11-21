@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CardsWidget({ showAll = false }) {
   const cards = [
@@ -24,12 +24,12 @@ export default function CardsWidget({ showAll = false }) {
         {card.stats && (
           <View style={styles.statsContainer}>
             <View style={styles.statItem}>
-              <Ionicons name="calendar" size={20} color="#007AFF" />
+              <Icon name="calendar" size={20} color="#007AFF" />
               <Text style={styles.statValue}>{card.stats.meets}</Text>
               <Text style={styles.statLabel}>Meets</Text>
             </View>
             <View style={styles.statItem}>
-              <Ionicons name="chatbubbles" size={20} color="#007AFF" />
+              <Icon name="chatbubbles" size={20} color="#007AFF" />
               <Text style={styles.statValue}>{card.stats.posts}</Text>
               <Text style={styles.statLabel}>Posts</Text>
             </View>
@@ -38,18 +38,18 @@ export default function CardsWidget({ showAll = false }) {
 
         {card.role && (
           <View style={styles.roleContainer}>
-            <Ionicons name="shield-checkmark" size={24} color={card.color} />
+            <Icon name="shield-checkmark" size={24} color={card.color} />
             <Text style={[styles.roleText, { color: card.color }]}>{card.role}</Text>
           </View>
         )}
 
         <View style={styles.cardActions}>
           <TouchableOpacity style={styles.cardButton}>
-            <Ionicons name="download" size={18} color="#007AFF" />
+            <Icon name="download" size={18} color="#007AFF" />
             <Text style={styles.cardButtonText}>Print</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.cardButton}>
-            <Ionicons name="share-social" size={18} color="#007AFF" />
+            <Icon name="share-social" size={18} color="#007AFF" />
             <Text style={styles.cardButtonText}>Share</Text>
           </TouchableOpacity>
         </View>
@@ -63,12 +63,12 @@ export default function CardsWidget({ showAll = false }) {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {cards.map(card => (
             <View key={card.id} style={[styles.miniCard, { backgroundColor: card.color }]}>
-              <Ionicons name="card" size={24} color="#fff" />
+              <Icon name="card" size={24} color="#fff" />
               <Text style={styles.miniCardText}>{card.type.split(' ')[0]}</Text>
             </View>
           ))}
           <TouchableOpacity style={styles.addMiniCard}>
-            <Ionicons name="add" size={24} color="#007AFF" />
+            <Icon name="add" size={24} color="#007AFF" />
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -80,19 +80,19 @@ export default function CardsWidget({ showAll = false }) {
       <View style={styles.header}>
         <Text style={styles.title}>Digital Cards</Text>
         <TouchableOpacity>
-          <Ionicons name="add-circle" size={24} color="#007AFF" />
+          <Icon name="add-circle" size={24} color="#007AFF" />
         </TouchableOpacity>
       </View>
 
       {cards.map(renderCard)}
 
       <TouchableOpacity style={styles.orderPhysicalCard}>
-        <Ionicons name="card" size={24} color="#007AFF" />
+        <Icon name="card" size={24} color="#007AFF" />
         <View style={styles.orderTextContainer}>
           <Text style={styles.orderTitle}>Order Physical Card</Text>
           <Text style={styles.orderSubtitle}>Get a metal membership card</Text>
         </View>
-        <Ionicons name="chevron-forward" size={24} color="#999" />
+        <Icon name="chevron-forward" size={24} color="#999" />
       </TouchableOpacity>
     </View>
   );
