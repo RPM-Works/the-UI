@@ -7,7 +7,7 @@ export default function WelcomeScreen({ navigation }) {
 
   const handleLogin = () => {
     // TODO: Implement actual authentication
-    navigation.replace('Main');
+    navigation.replace('Home');
   };
 
   return (

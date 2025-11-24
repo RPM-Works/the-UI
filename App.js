@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 // Screens
 import WelcomeScreen from './src/screens/WelcomeScreen';
+import HomeScreen from './src/screens/HomeScreen';
 import ChatsScreen from './src/screens/ChatsScreen';
 import MapScreen from './src/screens/MapScreen';
 import GroupsScreen from './src/screens/GroupsScreen';
@@ -63,6 +64,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Main" component={MainTabs} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
