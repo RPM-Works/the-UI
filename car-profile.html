@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Enthusiast Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== GLOBAL RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 90px; /* Space for fixed navigation */
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* ===== PROFILE CARD ===== */
+        .profile-card {
+            margin: 0 15px 30px;
+            border: 3px solid #4169E1;
+            border-radius: 8px;
+            background-color: #0a0a0a;
+            box-shadow: 0 0 10px rgba(65, 105, 225, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header {
+            display: flex;
+            min-height: 180px;
+        }
+
+        .car-image-container {
+            width: 40%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            width: 60%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4169E1;
+            line-height: 1.2;
+        }
+
+        .car-model {
+            font-size: 16px;
+            color: #4169E1;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .note-text {
+            font-size: 11px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .section-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #4169E1;
+            margin-top: 8px;
+        }
+
+        .modifications-text {
+            font-size: 14px;
+            color: #4169E1;
+            line-height: 1.5;
+        }
+
+        .accounts-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .instagram-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .instagram-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+
+        .instagram-handle {
+            font-size: 14px;
+            color: #4169E1;
+            font-weight: 500;
+        }
+
+        .qr-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 35px;
+            height: 35px;
+            background-color: #4169E1;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(65, 105, 225, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .qr-button:hover {
+            background-color: #5179f1;
+            transform: scale(1.05);
+        }
+
+        .qr-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .card-divider {
+            height: 2px;
+            background-color: #4169E1;
+            margin-top: 15px;
+            box-shadow: 0 0 8px rgba(65, 105, 225, 0.6);
+        }
+
+        /* ===== NEWS CARD ===== */
+        .news-card {
+            margin: 0 15px 30px;
+            text-align: center;
+        }
+
+        .news-image-container {
+            max-width: 320px;
+            margin: 0 auto 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .news-image {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: linear-gradient(180deg, #87CEEB 0%, #B0E0E6 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landscape-illustration {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .sun {
+            position: absolute;
+            top: 25%;
+            right: 20%;
+            width: 60px;
+            height: 60px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .mountain-back {
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 120px solid #6B8E23;
+        }
+
+        .mountain-front {
+            position: absolute;
+            bottom: 0;
+            right: 15%;
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 100px solid #556B2F;
+        }
+
+        .news-text {
+            font-size: 16px;
+            color: #4169E1;
+            line-height: 1.6;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .news-divider {
+            height: 2px;
+            background-color: #4169E1;
+            max-width: 320px;
+            margin: 0 auto;
+            box-shadow: 0 0 8px rgba(65, 105, 225, 0.6);
+        }
+
+        /* ===== BOTTOM NAVIGATION ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #000000;
+            border-top: 2px solid #4169E1;
+            padding: 15px 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 12px rgba(65, 105, 225, 0.3);
+        }
+
+        .nav-container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+        }
+
+        .nav-item:hover {
+            filter: brightness(1.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-item svg {
+            width: 40px;
+            height: 40px;
+            stroke: #4169E1;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .nav-item.plus-icon svg {
+            stroke-width: 2.5;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            color: #4169E1;
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 400px) {
+            .container {
+                padding: 15px 0;
+            }
+
+            .profile-card, .news-card {
+                margin: 0 10px 25px;
+            }
+
+            .username {
+                font-size: 20px;
+            }
+
+            .car-model {
+                font-size: 14px;
+            }
+
+            .section-header {
+                font-size: 16px;
+            }
+
+            .modifications-text {
+                font-size: 13px;
+            }
+
+            .news-text {
+                font-size: 14px;
+                padding: 0 15px;
+            }
+
+            .nav-item svg {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Profile Card -->
+        <article class="profile-card">
+            <div class="profile-header">
+                <!-- Car Image -->
+                <div class="car-image-container">
+                    <img src="https://via.placeholder.com/400x450/1a1a2e/4169E1?text=BMW+M3"
+                         alt="2003 BMW M3"
+                         class="car-image">
+                </div>
+
+                <!-- Profile Info -->
+                <div class="profile-info">
+                    <h1 class="username">@the_master_bender</h1>
+                    <p class="car-model">2003 Bmw M3 Six Speed Manual</p>
+                    <p class="note-text">Note for mods put a link to a full mods list?</p>
+
+                    <h2 class="section-header">Modifications</h2>
+                    <p class="modifications-text">Custom widebody, air suspension, independent throttle bodies, custom wheels, and carbon accents</p>
+
+                    <h2 class="section-header">Accounts</h2>
+                    <div class="accounts-section">
+                        <div class="instagram-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </div>
+                        <span class="instagram-handle">The_masterbender123</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR/Link Button -->
+            <button class="qr-button" aria-label="View QR Code">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13-2h3v3h-3v-3zm0 5h3v3h-3v-3zm-5-5h3v3h-3v-3z"/>
+                </svg>
+            </button>
+
+            <div class="card-divider"></div>
+        </article>
+
+        <!-- News Card -->
+        <article class="news-card">
+            <div class="news-image-container">
+                <div class="news-image">
+                    <div class="landscape-illustration">
+                        <div class="sun"></div>
+                        <div class="mountain-back"></div>
+                        <div class="mountain-front"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="news-text">
+                Keep up to date with latest car news, reviews, galleries, and announcements from the TG TV team on our Car News page. The Top Gear Editorial team publishes several news articles daily to make sure you are up to speed with the latest developments in the car motoring industry.
+            </p>
+
+            <div class="news-divider"></div>
+        </article>
+
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+
+            <!-- Car Uphill Icon -->
+            <button class="nav-item" aria-label="Garage">
+                <svg viewBox="0 0 48 48">
+                    <!-- Car body (white fill) -->
+                    <path d="M10 28 L14 22 L18 22 L20 18 L28 18 L30 22 L34 22 L38 28 L38 34 L10 34 Z"
+                          fill="white" stroke="#4169E1"/>
+                    <!-- Wheels -->
+                    <circle cx="16" cy="34" r="3" fill="white" stroke="#4169E1"/>
+                    <circle cx="32" cy="34" r="3" fill="white" stroke="#4169E1"/>
+                    <!-- Upward arrow (blue) -->
+                    <path d="M40 20 L44 24 M40 20 L36 24 M40 20 L40 30"
+                          stroke="#4169E1" stroke-width="2.5" fill="none"/>
+                </svg>
+                <span class="sr-only">Garage</span>
+            </button>
+
+            <!-- Home Icon -->
+            <button class="nav-item" aria-label="Home">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span class="sr-only">Home</span>
+            </button>
+
+            <!-- Plus Icon -->
+            <button class="nav-item plus-icon" aria-label="Add Post">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span class="sr-only">Add Post</span>
+            </button>
+
+            <!-- News Icon with Label -->
+            <button class="nav-item" aria-label="News">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <span class="nav-label">News</span>
+            </button>
+
+            <!-- Chat Icon -->
+            <button class="nav-item" aria-label="Chat">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    <circle cx="9" cy="10" r="1" fill="#4169E1"/>
+                    <circle cx="15" cy="10" r="1" fill="#4169E1"/>
+                </svg>
+                <span class="sr-only">Chat</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- JavaScript -->
+    <script>
+        // Navigation button click handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-item');
+
+            navButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    // Remove active state from all buttons
+                    navButtons.forEach(btn => btn.style.filter = '');
+
+                    // Add active state to clicked button
+                    this.style.filter = 'brightness(1.5)';
+
+                    // Log navigation action
+                    const labels = ['Garage', 'Home', 'Add Post', 'News', 'Chat'];
+                    console.log(`Navigating to: ${labels[index]}`);
+
+                    // Add your navigation logic here
+                });
+            });
+
+            // QR Button handler
+            const qrButton = document.querySelector('.qr-button');
+            qrButton.addEventListener('click', function() {
+                console.log('QR Code button clicked');
+                alert('QR Code / Full Mods List');
+                // Add your QR code display logic here
+            });
+
+            // Smooth scroll enhancement
+            document.documentElement.style.scrollBehavior = 'smooth';
+
+            // Image lazy loading enhancement
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.loading = 'lazy';
+            });
+
+            // Add touch feedback for mobile
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                });
+                button.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

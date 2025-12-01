@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups - Car Enthusiast GC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            padding: 20px;
+            background: #0a0a0a;
+            border-bottom: 2px solid #4169E1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #4169E1;
+        }
+
+        .search-bar {
+            margin: 15px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 24px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #4169E1;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #888;
+        }
+
+        .categories {
+            padding: 0 15px 10px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .category-chip {
+            padding: 8px 16px;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 20px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-chip.active {
+            background: #4169E1;
+            border-color: #4169E1;
+        }
+
+        .groups-list {
+            padding: 10px 15px;
+        }
+
+        .group-card {
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: all 0.3s;
+        }
+
+        .group-card:hover {
+            border-color: #4169E1;
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.3);
+        }
+
+        .group-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .group-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4169E1 0%, #7B68EE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .group-info {
+            flex: 1;
+        }
+
+        .group-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .group-meta {
+            font-size: 13px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .group-description {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .group-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .tag-bmw { background: rgba(65, 105, 225, 0.2); color: #4169E1; }
+        .tag-socal { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+        .tag-track { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .tag-photography { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+        .tag-jdm { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+
+        .join-btn {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #4169E1;
+            border-radius: 8px;
+            background: transparent;
+            color: #4169E1;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .join-btn:hover {
+            background: #4169E1;
+            color: white;
+        }
+
+        .join-btn.joined {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            color: white;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0a0a0a;
+            border-top: 2px solid #4169E1;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #4169E1;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Groups</h1>
+        <button style="background: none; border: none; color: #4169E1; font-size: 24px; cursor: pointer;">+</button>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search groups...">
+        <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="categories">
+        <div class="category-chip active">All</div>
+        <div class="category-chip">BMW</div>
+        <div class="category-chip">JDM</div>
+        <div class="category-chip">American Muscle</div>
+        <div class="category-chip">Track Days</div>
+        <div class="category-chip">Photography</div>
+    </div>
+
+    <div class="groups-list">
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon">🏁</div>
+                <div class="group-info">
+                    <div class="group-name">SoCal BMW Enthusiasts</div>
+                    <div class="group-meta">
+                        <span>👥 2,847 members</span>
+                        <span>📍 Los Angeles</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                The largest BMW community in Southern California. Weekly meets, canyon runs, and track days.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-bmw">BMW</span>
+                <span class="tag tag-socal">SoCal</span>
+                <span class="tag tag-track">Track Days</span>
+            </div>
+            <button class="join-btn joined">✓ Joined</button>
+        </div>
+
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔧</div>
+                <div class="group-info">
+                    <div class="group-name">M3 & M4 Owners Club</div>
+                    <div class="group-meta">
+                        <span>👥 1,523 members</span>
+                        <span>📍 Worldwide</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                Dedicated to E46, E90, E92, F80, G80 M3s and F82, G82 M4s. Share your builds, get tech advice, and connect with other M owners.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-bmw">BMW</span>
+            </div>
+            <button class="join-btn joined">✓ Joined</button>
+        </div>
+
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">🌙</div>
+                <div class="group-info">
+                    <div class="group-name">Midnight Club LA</div>
+                    <div class="group-meta">
+                        <span>👥 892 members</span>
+                        <span>📍 Los Angeles</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                Late night cruises through the city. Meet at 11 PM, cruise till sunrise. All cars welcome.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-socal">SoCal</span>
+            </div>
+            <button class="join-btn">+ Join Group</button>
+        </div>
+
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">📸</div>
+                <div class="group-info">
+                    <div class="group-name">Automotive Photography</div>
+                    <div class="group-meta">
+                        <span>👥 3,215 members</span>
+                        <span>📍 Online</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                For photographers and car enthusiasts. Share your best shots, learn new techniques, and find photoshoot spots.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-photography">Photography</span>
+            </div>
+            <button class="join-btn">+ Join Group</button>
+        </div>
+
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">🇯🇵</div>
+                <div class="group-info">
+                    <div class="group-name">JDM Legends SoCal</div>
+                    <div class="group-meta">
+                        <span>👥 1,967 members</span>
+                        <span>📍 Orange County</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                Import tuners and JDM enthusiasts. Skylines, Supras, RX-7s, S2000s and more. Weekly meets at 7-Eleven.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-jdm">JDM</span>
+                <span class="tag tag-socal">SoCal</span>
+            </div>
+            <button class="join-btn">+ Join Group</button>
+        </div>
+
+        <div class="group-card">
+            <div class="group-header">
+                <div class="group-icon" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🏎️</div>
+                <div class="group-info">
+                    <div class="group-name">Track Day Warriors</div>
+                    <div class="group-meta">
+                        <span>👥 658 members</span>
+                        <span>📍 California</span>
+                    </div>
+                </div>
+            </div>
+            <div class="group-description">
+                Serious track enthusiasts. Monthly events at Buttonwillow, Willow Springs, and Laguna Seca. HPDE and time attack.
+            </div>
+            <div class="group-tags">
+                <span class="tag tag-track">Track Days</span>
+            </div>
+            <button class="join-btn">+ Join Group</button>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="test-chats.html" class="nav-item">
+            <div class="nav-icon">💬</div>
+            <div>Chats</div>
+        </a>
+        <a href="test-map.html" class="nav-item">
+            <div class="nav-icon">🗺️</div>
+            <div>Map</div>
+        </a>
+        <a href="test-groups.html" class="nav-item active">
+            <div class="nav-icon">👥</div>
+            <div>Groups</div>
+        </a>
+        <a href="test-calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Meets</div>
+        </a>
+        <a href="car-profile.html" class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div>Profile</div>
+        </a>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const groupCards = document.querySelectorAll('.group-card');
+
+            groupCards.forEach(card => {
+                const groupName = card.querySelector('.group-name').textContent.toLowerCase();
+                const groupDesc = card.querySelector('.group-description').textContent.toLowerCase();
+
+                if (groupName.includes(searchTerm) || groupDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'slideIn 0.3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Category filtering
+        const categoryChips = document.querySelectorAll('.category-chip');
+        categoryChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Remove active from all
+                categoryChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                const category = chip.textContent;
+                const groupCards = document.querySelectorAll('.group-card');
+
+                groupCards.forEach(card => {
+                    const tags = card.querySelectorAll('.tag');
+                    const tagTexts = Array.from(tags).map(tag => tag.textContent);
+
+                    if (category === 'All' || tagTexts.some(tag => tag.includes(category))) {
+                        card.style.display = 'block';
+                        card.style.animation = 'slideIn 0.3s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Join/Leave button interactions
+        const joinButtons = document.querySelectorAll('.join-btn');
+        joinButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                if (btn.classList.contains('joined')) {
+                    btn.classList.remove('joined');
+                    btn.textContent = '+ Join Group';
+                    btn.style.animation = 'shake 0.5s ease';
+                } else {
+                    btn.classList.add('joined');
+                    btn.textContent = '✓ Joined';
+                    btn.style.animation = 'bounce 0.5s ease';
+
+                    // Update member count
+                    const memberCount = btn.closest('.group-card').querySelector('.group-meta span');
+                    const currentCount = parseInt(memberCount.textContent.match(/\\d+/)[0]);
+                    memberCount.textContent = `👥 ${currentCount + 1} members`;
+                }
+            });
+        });
+
+        // Add animations to CSS dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            @keyframes bounce {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
