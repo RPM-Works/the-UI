@@ -19,6 +19,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            overflow: hidden;
         }
 
         .header {
@@ -28,6 +29,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
         }
 
         .header-left {
@@ -42,6 +53,11 @@
             font-size: 24px;
             cursor: pointer;
             margin-right: 15px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
         }
 
         .chat-avatar-small {
@@ -53,6 +69,12 @@
             align-items: center;
             justify-content: center;
             margin-right: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .chat-title-group {
@@ -78,11 +100,24 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
 
         .message {
             margin: 10px 0;
             max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message-received {
@@ -106,6 +141,11 @@
             padding: 12px 16px;
             border-radius: 16px;
             word-wrap: break-word;
+            transition: all 0.2s;
+        }
+
+        .message-bubble:hover {
+            transform: scale(1.02);
         }
 
         .message-received .message-bubble {
@@ -136,6 +176,32 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .emoji-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 2px solid #333;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .emoji-btn:hover {
+            border-color: #4169E1;
+            transform: scale(1.1);
         }
 
         .message-input {
@@ -147,10 +213,12 @@
             color: white;
             font-size: 14px;
             outline: none;
+            transition: all 0.3s;
         }
 
         .message-input:focus {
             border-color: #4169E1;
+            box-shadow: 0 0 10px rgba(65, 105, 225, 0.3);
         }
 
         .send-btn {
@@ -166,10 +234,16 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 15px rgba(65, 105, 225, 0.4);
+            transition: all 0.3s;
         }
 
         .send-btn:hover {
             background: #3158d0;
+            transform: scale(1.1);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
         }
 
         .date-divider {
@@ -186,6 +260,7 @@
             border-radius: 16px;
             display: inline-block;
             margin: 10px 0;
+            animation: fadeIn 0.3s ease;
         }
 
         .typing-dot {
@@ -207,8 +282,55 @@
         }
 
         @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            padding: 10px 20px;
+            overflow-x: auto;
+            background: #0a0a0a;
+            border-top: 1px solid #333;
+        }
+
+        .quick-reply-btn {
+            padding: 8px 14px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 20px;
+            color: #4169E1;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-reply-btn:hover {
+            background: #4169E1;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .message-reactions {
+            display: flex;
+            gap: 4px;
+            margin-top: 5px;
+        }
+
+        .reaction {
+            padding: 2px 6px;
+            background: rgba(65, 105, 225, 0.2);
+            border-radius: 10px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reaction:hover {
+            background: rgba(65, 105, 225, 0.4);
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -225,7 +347,7 @@
                 </div>
             </div>
         </div>
-        <button style="background: none; border: none; color: #4169E1; font-size: 24px; cursor: pointer;">⋮</button>
+        <button style="background: none; border: none; color: #4169E1; font-size: 24px; cursor: pointer;" onclick="showChatMenu()">⋮</button>
     </div>
 
     <div class="messages-container" id="messagesContainer">
@@ -238,6 +360,10 @@
             </div>
             <div class="message-bubble">
                 Who's down for a canyon run tomorrow? 🏔️
+            </div>
+            <div class="message-reactions">
+                <span class="reaction" onclick="addReaction(this)">🔥 2</span>
+                <span class="reaction" onclick="addReaction(this)">👍 3</span>
             </div>
             <div class="message-time">2:45 PM</div>
         </div>
@@ -322,27 +448,50 @@
             <div class="message-time">3:16 PM</div>
         </div>
 
-        <div class="typing-indicator">
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
         </div>
     </div>
 
+    <div class="quick-replies" id="quickReplies">
+        <button class="quick-reply-btn" onclick="sendQuickReply('👍')">👍</button>
+        <button class="quick-reply-btn" onclick="sendQuickReply('I\\'m in!')">I'm in!</button>
+        <button class="quick-reply-btn" onclick="sendQuickReply('What time?')">What time?</button>
+        <button class="quick-reply-btn" onclick="sendQuickReply('Let me check')">Let me check</button>
+        <button class="quick-reply-btn" onclick="sendQuickReply('See you there!')">See you there!</button>
+    </div>
+
     <div class="input-container">
+        <button class="emoji-btn">😊</button>
         <input
             type="text"
             class="message-input"
             placeholder="Type a message..."
             id="messageInput"
             onkeypress="handleKeyPress(event)"
+            oninput="handleTyping()"
         >
         <button class="send-btn" onclick="sendMessage()">➤</button>
     </div>
 
     <script>
+        let typingTimeout;
+        const autoResponses = [
+            { text: "Yeah, that sounds great!", from: "Mike" },
+            { text: "I'll be there 💪", from: "Sarah" },
+            { text: "Can't wait!", from: "Jake" },
+            { text: "Should I bring anything?", from: "Sarah" },
+            { text: "Maybe we can grab breakfast first?", from: "Mike" }
+        ];
+
         function goBack() {
             window.location.href = 'test-chats.html';
+        }
+
+        function showChatMenu() {
+            alert('Chat menu: View details, Mute, Leave chat');
         }
 
         function handleKeyPress(event) {
@@ -351,40 +500,123 @@
             }
         }
 
+        function handleTyping() {
+            // Show typing indicator randomly
+            if (Math.random() > 0.9) {
+                showTypingIndicator();
+            }
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.style.display = 'inline-block';
+            const container = document.getElementById('messagesContainer');
+            container.scrollTop = container.scrollHeight;
+
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 3000);
+        }
+
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
 
             if (message) {
-                const messagesContainer = document.getElementById('messagesContainer');
-                const typingIndicator = document.querySelector('.typing-indicator');
+                addUserMessage(message);
+                input.value = '';
 
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
+                // Auto-respond after a delay
+                setTimeout(() => {
+                    addAutoResponse();
+                }, 2000 + Math.random() * 3000);
+            }
+        }
+
+        function sendQuickReply(text) {
+            addUserMessage(text);
+
+            // Auto-respond
+            setTimeout(() => {
+                addAutoResponse();
+            }, 1500 + Math.random() * 2000);
+        }
+
+        function addUserMessage(text) {
+            const messagesContainer = document.getElementById('messagesContainer');
+            const typingIndicator = document.getElementById('typingIndicator');
+
+            if (typingIndicator) {
+                typingIndicator.style.display = 'none';
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message message-sent';
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span>You</span>
+                    <span class="lock-icon">🔒</span>
+                </div>
+                <div class="message-bubble">${escapeHtml(text)}</div>
+                <div class="message-time">Just now</div>
+            `;
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addAutoResponse() {
+            const response = autoResponses[Math.floor(Math.random() * autoResponses.length)];
+            const messagesContainer = document.getElementById('messagesContainer');
+
+            // Show typing first
+            showTypingIndicator();
+
+            setTimeout(() => {
+                const typingIndicator = document.getElementById('typingIndicator');
+                typingIndicator.style.display = 'none';
 
                 const messageDiv = document.createElement('div');
-                messageDiv.className = 'message message-sent';
+                messageDiv.className = 'message message-received';
                 messageDiv.innerHTML = `
                     <div class="message-header">
-                        <span>You</span>
+                        <span>${response.from}</span>
                         <span class="lock-icon">🔒</span>
                     </div>
-                    <div class="message-bubble">${message}</div>
+                    <div class="message-bubble">${escapeHtml(response.text)}</div>
                     <div class="message-time">Just now</div>
                 `;
 
                 messagesContainer.appendChild(messageDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 2000);
+        }
 
-                input.value = '';
-            }
+        function addReaction(element) {
+            const currentCount = parseInt(element.textContent.split(' ')[1]);
+            const emoji = element.textContent.split(' ')[0];
+            element.textContent = `${emoji} ${currentCount + 1}`;
+            element.style.background = 'rgba(65, 105, 225, 0.4)';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // Auto-scroll to bottom on load
         window.addEventListener('load', () => {
             const container = document.getElementById('messagesContainer');
             container.scrollTop = container.scrollHeight;
+
+            // Random auto message every 15-30 seconds
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    addAutoResponse();
+                }
+            }, 20000);
         });
     </script>
 </body>
