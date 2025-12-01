@@ -390,5 +390,99 @@
             <div>Profile</div>
         </a>
     </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const groupCards = document.querySelectorAll('.group-card');
+
+            groupCards.forEach(card => {
+                const groupName = card.querySelector('.group-name').textContent.toLowerCase();
+                const groupDesc = card.querySelector('.group-description').textContent.toLowerCase();
+
+                if (groupName.includes(searchTerm) || groupDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'slideIn 0.3s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Category filtering
+        const categoryChips = document.querySelectorAll('.category-chip');
+        categoryChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Remove active from all
+                categoryChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                const category = chip.textContent;
+                const groupCards = document.querySelectorAll('.group-card');
+
+                groupCards.forEach(card => {
+                    const tags = card.querySelectorAll('.tag');
+                    const tagTexts = Array.from(tags).map(tag => tag.textContent);
+
+                    if (category === 'All' || tagTexts.some(tag => tag.includes(category))) {
+                        card.style.display = 'block';
+                        card.style.animation = 'slideIn 0.3s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Join/Leave button interactions
+        const joinButtons = document.querySelectorAll('.join-btn');
+        joinButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                if (btn.classList.contains('joined')) {
+                    btn.classList.remove('joined');
+                    btn.textContent = '+ Join Group';
+                    btn.style.animation = 'shake 0.5s ease';
+                } else {
+                    btn.classList.add('joined');
+                    btn.textContent = '✓ Joined';
+                    btn.style.animation = 'bounce 0.5s ease';
+
+                    // Update member count
+                    const memberCount = btn.closest('.group-card').querySelector('.group-meta span');
+                    const currentCount = parseInt(memberCount.textContent.match(/\\d+/)[0]);
+                    memberCount.textContent = `👥 ${currentCount + 1} members`;
+                }
+            });
+        });
+
+        // Add animations to CSS dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            @keyframes bounce {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>

@@ -494,5 +494,67 @@
             <div>Profile</div>
         </a>
     </div>
+
+    <script>
+        // Interactive calendar days
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', () => {
+                days.forEach(d => d.classList.remove('today'));
+                day.classList.add('today');
+            });
+        });
+
+        // RSVP functionality
+        const rsvpButtons = document.querySelectorAll('.rsvp-btn');
+        rsvpButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+
+                const attendeesSpan = btn.closest('.event-card').querySelector('.attendees span');
+                const currentCount = parseInt(attendeesSpan.textContent.split(' ')[0]);
+
+                if (btn.classList.contains('going')) {
+                    btn.classList.remove('going');
+                    btn.textContent = 'RSVP';
+                    attendeesSpan.textContent = `${currentCount - 1} going`;
+                    btn.style.animation = 'shake 0.5s ease';
+                } else {
+                    btn.classList.add('going');
+                    btn.textContent = '✓ You\\'re Going';
+                    attendeesSpan.textContent = `${currentCount + 1} going`;
+                    btn.style.animation = 'bounce 0.5s ease';
+                }
+            });
+        });
+
+        // Event card clicks
+        const eventCards = document.querySelectorAll('.event-card');
+        eventCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('.event-title').textContent;
+                const details = Array.from(card.querySelectorAll('.event-details'))
+                    .map(d => d.textContent)
+                    .join('\\n');
+
+                alert(`📅 ${title}\\n\\n${details}\\n\\nClick RSVP button to confirm attendance!`);
+            });
+        });
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+            @keyframes bounce {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
