@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chats - Car Enthusiast GC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            padding: 20px;
+            background: #0a0a0a;
+            border-bottom: 2px solid #4169E1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #4169E1;
+        }
+
+        .add-btn {
+            width: 40px;
+            height: 40px;
+            background: #4169E1;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.4);
+        }
+
+        .chat-list {
+            padding: 10px;
+        }
+
+        .chat-item {
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chat-item:hover {
+            border-color: #4169E1;
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.3);
+        }
+
+        .chat-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4169E1 0%, #7B68EE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .chat-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .chat-time {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .chat-preview {
+            font-size: 14px;
+            color: #aaa;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-private {
+            background: rgba(65, 105, 225, 0.2);
+            color: #4169E1;
+        }
+
+        .badge-public {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .badge-encrypted {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        .badge-org {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .unread-count {
+            min-width: 24px;
+            height: 24px;
+            background: #4169E1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0a0a0a;
+            border-top: 2px solid #4169E1;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #4169E1;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Chats</h1>
+        <button class="add-btn">+</button>
+    </div>
+
+    <div class="chat-list">
+        <div class="chat-item" onclick="openChat('socal-crew')">
+            <div class="chat-avatar">🏁</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">SoCal Crew</div>
+                    <div class="chat-time">2:45 PM</div>
+                </div>
+                <div class="chat-preview">Mike: Who's down for a canyon run tomorrow?</div>
+                <div class="chat-meta">
+                    <span class="badge badge-private">Private</span>
+                    <span class="badge badge-encrypted">🔒 E2E</span>
+                </div>
+            </div>
+            <div class="unread-count">3</div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('bmw-m3-owners')">
+            <div class="chat-avatar">🔧</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">BMW M3 Owners</div>
+                    <div class="chat-time">1:23 PM</div>
+                </div>
+                <div class="chat-preview">Anyone know a good mechanic in OC?</div>
+                <div class="chat-meta">
+                    <span class="badge badge-public">Public</span>
+                    <span class="badge badge-encrypted">🔒 E2E</span>
+                </div>
+            </div>
+            <div class="unread-count">12</div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('la-meets')">
+            <div class="chat-avatar">📍</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">LA Car Meets</div>
+                    <div class="chat-time">12:05 PM</div>
+                </div>
+                <div class="chat-preview">Meet this Saturday at In-N-Out 8PM</div>
+                <div class="chat-meta">
+                    <span class="badge badge-public">Public</span>
+                    <span class="badge badge-org">Organizer</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('track-day')">
+            <div class="chat-avatar">🏎️</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">Track Day Crew</div>
+                    <div class="chat-time">10:32 AM</div>
+                </div>
+                <div class="chat-preview">Buttonwillow next month, who's in?</div>
+                <div class="chat-meta">
+                    <span class="badge badge-private">Private</span>
+                    <span class="badge badge-encrypted">🔒 E2E</span>
+                </div>
+            </div>
+            <div class="unread-count">5</div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('widebody-nation')">
+            <div class="chat-avatar">💪</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">Widebody Nation</div>
+                    <div class="chat-time">Yesterday</div>
+                </div>
+                <div class="chat-preview">Check out my new Rocket Bunny kit!</div>
+                <div class="chat-meta">
+                    <span class="badge badge-public">Public</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('turbo-gang')">
+            <div class="chat-avatar">🌪️</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">Turbo Gang</div>
+                    <div class="chat-time">Yesterday</div>
+                </div>
+                <div class="chat-preview">PSSSHHH 💨 Just hit 25 PSI!</div>
+                <div class="chat-meta">
+                    <span class="badge badge-private">Private</span>
+                    <span class="badge badge-encrypted">🔒 E2E</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-item" onclick="openChat('car-photography')">
+            <div class="chat-avatar">📸</div>
+            <div class="chat-info">
+                <div class="chat-header">
+                    <div class="chat-name">Car Photography</div>
+                    <div class="chat-time">2 days ago</div>
+                </div>
+                <div class="chat-preview">Golden hour shots from yesterday's meet</div>
+                <div class="chat-meta">
+                    <span class="badge badge-public">Public</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="test-chats.html" class="nav-item active">
+            <div class="nav-icon">💬</div>
+            <div>Chats</div>
+        </a>
+        <a href="test-map.html" class="nav-item">
+            <div class="nav-icon">🗺️</div>
+            <div>Map</div>
+        </a>
+        <a href="test-groups.html" class="nav-item">
+            <div class="nav-icon">👥</div>
+            <div>Groups</div>
+        </a>
+        <a href="test-calendar.html" class="nav-item">
+            <div class="nav-icon">📅</div>
+            <div>Meets</div>
+        </a>
+        <a href="car-profile.html" class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div>Profile</div>
+        </a>
+    </div>
+
+    <script>
+        function openChat(chatId) {
+            window.location.href = `test-subchat.html?chat=${chatId}`;
+        }
+    </script>
+</body>
+</html>

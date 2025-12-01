@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoCal Crew - Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            padding: 15px 20px;
+            background: #0a0a0a;
+            border-bottom: 2px solid #4169E1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #4169E1;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .chat-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4169E1 0%, #7B68EE 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .chat-title-group {
+            flex: 1;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .encryption-status {
+            font-size: 12px;
+            color: #ffc107;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin: 10px 0;
+            max-width: 80%;
+        }
+
+        .message-received {
+            align-self: flex-start;
+        }
+
+        .message-sent {
+            align-self: flex-end;
+        }
+
+        .message-header {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 16px;
+            word-wrap: break-word;
+        }
+
+        .message-received .message-bubble {
+            background: #1a1a1a;
+            border: 1px solid #333;
+        }
+
+        .message-sent .message-bubble {
+            background: #4169E1;
+            color: white;
+        }
+
+        .lock-icon {
+            color: #ffc107;
+            font-size: 10px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .input-container {
+            padding: 15px 20px;
+            background: #0a0a0a;
+            border-top: 2px solid #4169E1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 24px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .message-input:focus {
+            border-color: #4169E1;
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            background: #4169E1;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(65, 105, 225, 0.4);
+        }
+
+        .send-btn:hover {
+            background: #3158d0;
+        }
+
+        .date-divider {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin: 20px 0;
+        }
+
+        .typing-indicator {
+            padding: 10px 16px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 16px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <div class="chat-avatar-small">🏁</div>
+            <div class="chat-title-group">
+                <div class="chat-title">SoCal Crew</div>
+                <div class="encryption-status">
+                    <span class="lock-icon">🔒</span>
+                    <span>End-to-End Encrypted</span>
+                </div>
+            </div>
+        </div>
+        <button style="background: none; border: none; color: #4169E1; font-size: 24px; cursor: pointer;">⋮</button>
+    </div>
+
+    <div class="messages-container" id="messagesContainer">
+        <div class="date-divider">Today</div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Mike</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                Who's down for a canyon run tomorrow? 🏔️
+            </div>
+            <div class="message-time">2:45 PM</div>
+        </div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Sarah</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                I'm in! What time?
+            </div>
+            <div class="message-time">2:47 PM</div>
+        </div>
+
+        <div class="message message-sent">
+            <div class="message-header">
+                <span>You</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                Count me in! My M3 is ready to go
+            </div>
+            <div class="message-time">2:50 PM</div>
+        </div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Mike</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                Sweet! Let's meet at 7 AM at the usual spot
+            </div>
+            <div class="message-time">2:52 PM</div>
+        </div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Jake</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                Just finished installing my new coilovers. Perfect timing! 🔧
+            </div>
+            <div class="message-time">3:05 PM</div>
+        </div>
+
+        <div class="message message-sent">
+            <div class="message-bubble">
+                Nice! How do they feel?
+            </div>
+            <div class="message-time">3:07 PM</div>
+        </div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Jake</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                Haven't driven it much yet, but the stance is perfect 👌
+            </div>
+            <div class="message-time">3:08 PM</div>
+        </div>
+
+        <div class="message message-received">
+            <div class="message-header">
+                <span>Sarah</span>
+                <span class="lock-icon">🔒</span>
+            </div>
+            <div class="message-bubble">
+                BTW, anyone going to the meet this Saturday?
+            </div>
+            <div class="message-time">3:15 PM</div>
+        </div>
+
+        <div class="message message-sent">
+            <div class="message-bubble">
+                Which one? The In-N-Out meet?
+            </div>
+            <div class="message-time">3:16 PM</div>
+        </div>
+
+        <div class="typing-indicator">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <input
+            type="text"
+            class="message-input"
+            placeholder="Type a message..."
+            id="messageInput"
+            onkeypress="handleKeyPress(event)"
+        >
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'test-chats.html';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (message) {
+                const messagesContainer = document.getElementById('messagesContainer');
+                const typingIndicator = document.querySelector('.typing-indicator');
+
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message message-sent';
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <span>You</span>
+                        <span class="lock-icon">🔒</span>
+                    </div>
+                    <div class="message-bubble">${message}</div>
+                    <div class="message-time">Just now</div>
+                `;
+
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                input.value = '';
+            }
+        }
+
+        // Auto-scroll to bottom on load
+        window.addEventListener('load', () => {
+            const container = document.getElementById('messagesContainer');
+            container.scrollTop = container.scrollHeight;
+        });
+    </script>
+</body>
+</html>
