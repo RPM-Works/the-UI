@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnout - Car Enthusiast App</title>
+    <link rel="stylesheet" href="burnout-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .demo-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            border-radius: var(--radius-full);
+            border: 4px solid var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-blue), var(--electric-blue));
+        }
+
+        .demo-logo i {
+            font-size: 60px;
+            color: var(--text-white);
+        }
+
+        .demo-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .demo-subtitle {
+            font-size: 20px;
+            color: var(--text-gray);
+            margin-bottom: 32px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+
+        .demo-card {
+            background-color: var(--card-background);
+            border: 2.5px solid var(--border-blue);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(65, 105, 225, 0.7);
+        }
+
+        .demo-card-icon {
+            font-size: 48px;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+        }
+
+        .demo-card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-white);
+            margin-bottom: 8px;
+        }
+
+        .demo-card-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .demo-info {
+            background-color: var(--card-background);
+            border: 2px solid var(--primary-blue);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .demo-info h3 {
+            color: var(--primary-blue);
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .demo-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .demo-info li {
+            padding: 8px 0;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .demo-info li i {
+            color: var(--primary-blue);
+            width: 20px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .tech-badge {
+            background-color: rgba(65, 105, 225, 0.2);
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .demo-title {
+                font-size: 36px;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header -->
+        <div class="demo-header">
+            <div class="demo-logo">
+                <i class="fas fa-fire"></i>
+            </div>
+            <h1 class="demo-title">Burnout</h1>
+            <p class="demo-subtitle">Gen Z Car Enthusiast Social Media App</p>
+        </div>
+
+        <!-- Info Section -->
+        <div class="demo-info">
+            <h3><i class="fas fa-info-circle"></i> About Burnout</h3>
+            <p style="color: var(--text-white); margin-bottom: 16px;">
+                A modern, sleek social media platform designed for Gen Z car enthusiasts to connect, share builds,
+                discover events, and engage with the automotive community.
+            </p>
+            <ul>
+                <li><i class="fas fa-check"></i> Share car builds and modifications</li>
+                <li><i class="fas fa-check"></i> Discover local car meets and events</li>
+                <li><i class="fas fa-check"></i> Connect with fellow enthusiasts</li>
+                <li><i class="fas fa-check"></i> Stay updated with automotive news</li>
+                <li><i class="fas fa-check"></i> Track routes and locations</li>
+            </ul>
+
+            <div class="tech-stack">
+                <span class="tech-badge"><i class="fab fa-html5"></i> HTML5</span>
+                <span class="tech-badge"><i class="fab fa-css3-alt"></i> CSS3</span>
+                <span class="tech-badge"><i class="fab fa-js"></i> JavaScript</span>
+                <span class="tech-badge"><i class="fas fa-mobile-alt"></i> Responsive</span>
+            </div>
+        </div>
+
+        <!-- Screen Navigation -->
+        <h2 style="color: var(--primary-blue); font-size: 28px; margin-bottom: 24px; text-align: center;">
+            <i class="fas fa-th"></i> Explore Screens
+        </h2>
+
+        <div class="demo-grid">
+            <a href="burnout-home.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="demo-card-title">Home Feed</div>
+                <div class="demo-card-desc">Personalized feed with news and updates</div>
+            </a>
+
+            <a href="burnout-events.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="demo-card-title">Events</div>
+                <div class="demo-card-desc">Browse car meets and group events</div>
+            </a>
+
+            <a href="burnout-routes.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="demo-card-title">Routes</div>
+                <div class="demo-card-desc">Map and driving route tracking</div>
+            </a>
+
+            <a href="burnout-news.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <div class="demo-card-title">News</div>
+                <div class="demo-card-desc">Latest automotive news and reviews</div>
+            </a>
+
+            <a href="burnout-profile.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="demo-card-title">Profile</div>
+                <div class="demo-card-desc">User profile with tabs</div>
+            </a>
+
+            <a href="burnout-car-profile.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-car-side"></i>
+                </div>
+                <div class="demo-card-title">Car Profile</div>
+                <div class="demo-card-desc">Detailed car build information</div>
+            </a>
+
+            <a href="burnout-chat.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="demo-card-title">Chat</div>
+                <div class="demo-card-desc">Messages and conversations</div>
+            </a>
+
+            <a href="burnout-add-post.html" class="demo-card">
+                <div class="demo-card-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="demo-card-title">Add Post</div>
+                <div class="demo-card-desc">Create new content</div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 32px 0; border-top: 1px solid var(--divider-color);">
+            <p style="color: var(--text-gray); font-size: 14px;">
+                <i class="fas fa-fire"></i> Built with passion for car enthusiasts
+                <i class="fas fa-car"></i>
+            </p>
+            <p style="color: var(--text-gray); font-size: 12px; margin-top: 8px;">
+                © 2025 Burnout. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add entrance animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.demo-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

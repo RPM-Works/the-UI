@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnout - Profile</title>
+    <link rel="stylesheet" href="burnout-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <!-- Profile Header -->
+            <div style="margin-top: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px;">
+                <div class="profile-circle large">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h2 class="headline-large">@the_master_bender</h2>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab(0)">Posts</button>
+                <button class="tab" onclick="switchTab(1)">Sparks?</button>
+                <button class="tab" onclick="switchTab(2)">Auto-Bits</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-0">
+                    <div class="empty-state">
+                        <p class="body-medium text-gray">No posts yet</p>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-1" style="display: none;">
+                    <div class="empty-state">
+                        <p class="body-medium text-gray">Sparks coming soon</p>
+                    </div>
+                </div>
+                <div class="tab-pane" id="tab-2" style="display: none;">
+                    <div class="empty-state">
+                        <p class="body-medium text-gray">Auto-Bits coming soon</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spacer for bottom nav -->
+            <div style="height: 100px;"></div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="burnout-routes.html" class="nav-item">
+                <i class="fas fa-car"></i>
+            </a>
+            <a href="burnout-home.html" class="nav-item">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="burnout-add-post.html" class="nav-item add-button">
+                <i class="fas fa-plus-circle"></i>
+            </a>
+            <a href="burnout-news.html" class="nav-item">
+                <i class="fas fa-newspaper"></i>
+            </a>
+            <a href="burnout-chat.html" class="nav-item">
+                <i class="fas fa-comment-dots"></i>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        function switchTab(index) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // Update tab content
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach((pane, i) => {
+                if (i === index) {
+                    pane.style.display = 'block';
+                } else {
+                    pane.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
