@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driving Mode - Car Enthusiast GC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -390,7 +391,7 @@
 
         <div class="music-control">
             <div class="now-playing">
-                <div class="album-art">🎵</div>
+                <div class="album-art"><i class="fas fa-music" style="font-size: 72px;"></i></div>
                 <div class="track-info">
                     <div class="track-title">Night Drive</div>
                     <div class="track-artist">Synthwave Vibes</div>
@@ -407,15 +408,15 @@
             </div>
 
             <div class="music-controls">
-                <button class="control-btn" onclick="previousTrack()">⏮</button>
-                <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()">⏸</button>
-                <button class="control-btn" onclick="nextTrack()">⏭</button>
+                <button class="control-btn" onclick="previousTrack()"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn play-pause" id="playPauseBtn" onclick="togglePlayPause()"><i class="fas fa-pause"></i></button>
+                <button class="control-btn" onclick="nextTrack()"><i class="fas fa-step-forward"></i></button>
             </div>
         </div>
 
         <div class="turbo-control">
             <div class="turbo-header">
-                <div class="turbo-title">🌪️ Turbo Sound</div>
+                <div class="turbo-title"><i class="fas fa-wind"></i> Turbo Sound</div>
                 <div class="turbo-toggle" id="turboToggle" onclick="toggleTurbo()"></div>
             </div>
 
@@ -458,7 +459,7 @@
         function togglePlayPause() {
             isPlaying = !isPlaying;
             const btn = document.getElementById('playPauseBtn');
-            btn.textContent = isPlaying ? '⏸' : '▶';
+            btn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
         }
 
         function previousTrack() {

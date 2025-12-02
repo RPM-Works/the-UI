@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chats - Car Enthusiast GC</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -347,7 +348,7 @@
     <div class="search-filter-bar">
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="Search chats..." oninput="filterChats()">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i class="fas fa-search"></i></span>
         </div>
         <div class="filter-chips">
             <div class="filter-chip active" onclick="filterByType('all')">All</div>
@@ -360,7 +361,7 @@
 
     <div class="chat-list" id="chatList">
         <div class="chat-item" data-name="SoCal Crew" data-type="private encrypted" data-unread="3" onclick="openChat('socal-crew')">
-            <div class="chat-avatar">🏁</div>
+            <div class="chat-avatar"><i class="fas fa-flag-checkered"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">SoCal Crew</div>
@@ -376,14 +377,14 @@
                 </div>
                 <div class="chat-meta">
                     <span class="badge badge-private">Private</span>
-                    <span class="badge badge-encrypted">🔒 E2E</span>
+                    <span class="badge badge-encrypted"><i class="fas fa-lock"></i> E2E</span>
                 </div>
             </div>
             <div class="unread-count">3</div>
         </div>
 
         <div class="chat-item" data-name="BMW M3 Owners" data-type="public encrypted" data-unread="12" onclick="openChat('bmw-m3-owners')">
-            <div class="chat-avatar">🔧</div>
+            <div class="chat-avatar"><i class="fas fa-wrench"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">BMW M3 Owners</div>
@@ -392,14 +393,14 @@
                 <div class="chat-preview">Anyone know a good mechanic in OC?</div>
                 <div class="chat-meta">
                     <span class="badge badge-public">Public</span>
-                    <span class="badge badge-encrypted">🔒 E2E</span>
+                    <span class="badge badge-encrypted"><i class="fas fa-lock"></i> E2E</span>
                 </div>
             </div>
             <div class="unread-count">12</div>
         </div>
 
         <div class="chat-item" data-name="LA Car Meets" data-type="public" data-unread="0" onclick="openChat('la-meets')">
-            <div class="chat-avatar">📍</div>
+            <div class="chat-avatar"><i class="fas fa-map-marker-alt"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">LA Car Meets</div>
@@ -414,7 +415,7 @@
         </div>
 
         <div class="chat-item" data-name="Track Day Crew" data-type="private encrypted" data-unread="5" onclick="openChat('track-day')">
-            <div class="chat-avatar">🏎️</div>
+            <div class="chat-avatar"><i class="fas fa-car-side"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">Track Day Crew</div>
@@ -423,14 +424,14 @@
                 <div class="chat-preview">Buttonwillow next month, who's in?</div>
                 <div class="chat-meta">
                     <span class="badge badge-private">Private</span>
-                    <span class="badge badge-encrypted">🔒 E2E</span>
+                    <span class="badge badge-encrypted"><i class="fas fa-lock"></i> E2E</span>
                 </div>
             </div>
             <div class="unread-count">5</div>
         </div>
 
         <div class="chat-item" data-name="Widebody Nation" data-type="public" data-unread="0" onclick="openChat('widebody-nation')">
-            <div class="chat-avatar">💪</div>
+            <div class="chat-avatar"><i class="fas fa-dumbbell"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">Widebody Nation</div>
@@ -444,7 +445,7 @@
         </div>
 
         <div class="chat-item" data-name="Turbo Gang" data-type="private encrypted" data-unread="0" onclick="openChat('turbo-gang')">
-            <div class="chat-avatar">🌪️</div>
+            <div class="chat-avatar"><i class="fas fa-wind"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">Turbo Gang</div>
@@ -453,13 +454,13 @@
                 <div class="chat-preview">PSSSHHH 💨 Just hit 25 PSI!</div>
                 <div class="chat-meta">
                     <span class="badge badge-private">Private</span>
-                    <span class="badge badge-encrypted">🔒 E2E</span>
+                    <span class="badge badge-encrypted"><i class="fas fa-lock"></i> E2E</span>
                 </div>
             </div>
         </div>
 
         <div class="chat-item" data-name="Car Photography" data-type="public" data-unread="0" onclick="openChat('car-photography')">
-            <div class="chat-avatar">📸</div>
+            <div class="chat-avatar"><i class="fas fa-camera"></i></div>
             <div class="chat-info">
                 <div class="chat-header">
                     <div class="chat-name">Car Photography</div>
@@ -474,35 +475,35 @@
     </div>
 
     <div class="no-results hidden" id="noResults">
-        <div style="font-size: 48px; margin-bottom: 10px;">🔍</div>
+        <div style="font-size: 48px; margin-bottom: 10px;"><i class="fas fa-search"></i></div>
         <div>No chats found</div>
     </div>
 
     <div class="bottom-nav">
         <a href="test-chats.html" class="nav-item active">
             <div class="nav-icon" style="position: relative;">
-                💬
+                <i class="fas fa-comment"></i>
                 <span class="notification-badge">20</span>
             </div>
             <div>Chats</div>
         </a>
         <a href="test-map.html" class="nav-item">
-            <div class="nav-icon">🗺️</div>
+            <div class="nav-icon"><i class="fas fa-map"></i></div>
             <div>Map</div>
         </a>
         <a href="test-groups.html" class="nav-item">
-            <div class="nav-icon">👥</div>
+            <div class="nav-icon"><i class="fas fa-users"></i></div>
             <div>Groups</div>
         </a>
         <a href="test-calendar.html" class="nav-item">
             <div class="nav-icon" style="position: relative;">
-                📅
+                <i class="fas fa-calendar"></i>
                 <span class="notification-badge">3</span>
             </div>
             <div>Meets</div>
         </a>
         <a href="car-profile.html" class="nav-item">
-            <div class="nav-icon">👤</div>
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
             <div>Profile</div>
         </a>
     </div>
