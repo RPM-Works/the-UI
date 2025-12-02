@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SoCal Crew - Chat</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -338,11 +339,11 @@
     <div class="header">
         <div class="header-left">
             <button class="back-btn" onclick="goBack()">←</button>
-            <div class="chat-avatar-small">🏁</div>
+            <div class="chat-avatar-small"><i class="fas fa-flag-checkered"></i></div>
             <div class="chat-title-group">
                 <div class="chat-title">SoCal Crew</div>
                 <div class="encryption-status">
-                    <span class="lock-icon">🔒</span>
+                    <span class="lock-icon"><i class="fas fa-lock"></i></span>
                     <span>End-to-End Encrypted</span>
                 </div>
             </div>
@@ -356,7 +357,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Mike</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 Who's down for a canyon run tomorrow? 🏔️
@@ -371,7 +372,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Sarah</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 I'm in! What time?
@@ -382,7 +383,7 @@
         <div class="message message-sent">
             <div class="message-header">
                 <span>You</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 Count me in! My M3 is ready to go
@@ -393,7 +394,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Mike</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 Sweet! Let's meet at 7 AM at the usual spot
@@ -404,7 +405,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Jake</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 Just finished installing my new coilovers. Perfect timing! 🔧
@@ -422,7 +423,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Jake</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 Haven't driven it much yet, but the stance is perfect 👌
@@ -433,7 +434,7 @@
         <div class="message message-received">
             <div class="message-header">
                 <span>Sarah</span>
-                <span class="lock-icon">🔒</span>
+                <span class="lock-icon"><i class="fas fa-lock"></i></span>
             </div>
             <div class="message-bubble">
                 BTW, anyone going to the meet this Saturday?
@@ -464,7 +465,7 @@
     </div>
 
     <div class="input-container">
-        <button class="emoji-btn">😊</button>
+        <button class="emoji-btn"><i class="far fa-smile"></i></button>
         <input
             type="text"
             class="message-input"
@@ -556,7 +557,7 @@
             messageDiv.innerHTML = `
                 <div class="message-header">
                     <span>You</span>
-                    <span class="lock-icon">🔒</span>
+                    <span class="lock-icon"><i class="fas fa-lock"></i></span>
                 </div>
                 <div class="message-bubble">${escapeHtml(text)}</div>
                 <div class="message-time">Just now</div>
@@ -582,7 +583,7 @@
                 messageDiv.innerHTML = `
                     <div class="message-header">
                         <span>${response.from}</span>
-                        <span class="lock-icon">🔒</span>
+                        <span class="lock-icon"><i class="fas fa-lock"></i></span>
                     </div>
                     <div class="message-bubble">${escapeHtml(response.text)}</div>
                     <div class="message-time">Just now</div>
