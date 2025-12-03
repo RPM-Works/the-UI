@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'constants/app_theme.dart';
-import 'constants/app_colors.dart';
+import 'constants/apple_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/routes_screen.dart';
 import 'screens/add_post_screen.dart';
@@ -10,7 +9,7 @@ import 'screens/chat_screen.dart';
 import 'screens/events_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/car_profile_screen.dart';
-import 'widgets/bottom_nav_bar.dart';
+import 'widgets/apple_bottom_nav.dart';
 
 void main() {
   // Set system UI overlay style
@@ -18,7 +17,7 @@ void main() {
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: AppColors.backgroundColor,
+      systemNavigationBarColor: Colors.black,
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
@@ -33,7 +32,16 @@ class BurnoutApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Burnout',
-      theme: AppTheme.darkTheme,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        fontFamily: '-apple-system',
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white70),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: const MainNavigator(),
       routes: {
@@ -75,11 +83,20 @@ class _MainNavigatorState extends State<MainNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BurnoutBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          _screens[_currentIndex],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: AppleBottomNav(
+              currentIndex: _currentIndex,
+              onTap: _onTabTapped,
+            ),
+          ),
+        ],
       ),
     );
   }

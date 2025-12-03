@@ -1,90 +1,149 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../widgets/group_circle.dart';
+import '../constants/apple_theme.dart';
+import '../widgets/apple_content_card.dart';
+import '../widgets/apple_glass_widgets.dart';
+import '../widgets/apple_buttons.dart';
 
-/// Events screen with group circles and event table
-class EventsScreen extends StatelessWidget {
+/// Events screen with event cards
+class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
+
+  @override
+  State<EventsScreen> createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
+  String _selectedFilter = 'All';
+
+  final List<Map<String, dynamic>> _events = [
+    {
+      'title': 'Sunset Canyon Run',
+      'location': 'Angeles Crest Highway',
+      'date': 'Dec 7, 2024',
+      'time': '7:00 AM',
+      'attendees': 47,
+      'maxAttendees': 50,
+      'type': 'Drive',
+      'description': 'Classic canyon run through Angeles Crest. Meet at the Newcombs Ranch parking lot. All skill levels welcome!',
+    },
+    {
+      'title': 'Track Day - Buttonwillow',
+      'location': 'Buttonwillow Raceway',
+      'date': 'Dec 10, 2024',
+      'time': '8:00 AM',
+      'attendees': 32,
+      'maxAttendees': 40,
+      'type': 'Track',
+      'description': 'Full track day with timed sessions. Tech inspection required. Helmets mandatory (Snell 2015 or newer).',
+    },
+    {
+      'title': 'Cars & Coffee - Irvine',
+      'location': 'Irvine Spectrum',
+      'date': 'Dec 14, 2024',
+      'time': '8:00 AM',
+      'attendees': 234,
+      'maxAttendees': null,
+      'type': 'Show',
+      'description': 'Monthly C&C meet. All cars welcome - exotics, JDM, muscle, euro. Free coffee and good vibes!',
+    },
+    {
+      'title': 'Dyno Day & BBQ',
+      'location': 'SoCal Speed Shop',
+      'date': 'Dec 15, 2024',
+      'time': '10:00 AM',
+      'attendees': 28,
+      'maxAttendees': 35,
+      'type': 'Dyno',
+      'description': 'Dyno pulls \$75/run. BBQ lunch included. Door prizes and giveaways. Bring your built ride!',
+    },
+    {
+      'title': 'Night Photoshoot Meet',
+      'location': 'Downtown LA Arts District',
+      'date': 'Dec 16, 2024',
+      'time': '8:00 PM',
+      'attendees': 19,
+      'maxAttendees': 25,
+      'type': 'Photo',
+      'description': 'Professional photographer on site. Light painting, long exposures, creative shots. Bring your cleanest build!',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
 
-            // Tab navigation
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'For You',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        fontSize: 28,
-                        color: AppColors.textWhite,
-                      ),
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Events',
+                style: TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                  color: AppleTheme.appleBlue,
                 ),
-                const SizedBox(width: 40),
-                Text(
-                  'Events',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ],
+              ),
             ),
 
             const SizedBox(height: 24),
 
-            // Group circles
+            // Filter pills
             SizedBox(
-              height: 150,
+              height: 40,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                children: const [
-                  GroupCircle(
-                    label: 'PNW Oil Leak Club',
-                    // You can add a BMW logo image here
-                    icon: Icons.directions_car,
-                  ),
-                  SizedBox(width: 16),
-                  GroupCircle(
-                    icon: Icons.group,
-                  ),
-                  SizedBox(width: 16),
-                  GroupCircle(
-                    icon: Icons.group,
-                  ),
-                  SizedBox(width: 16),
-                  GroupCircle(
-                    icon: Icons.group,
-                  ),
+                children: [
+                  _buildFilterPill('All'),
+                  const SizedBox(width: 8),
+                  _buildFilterPill('Drive'),
+                  const SizedBox(width: 8),
+                  _buildFilterPill('Track'),
+                  const SizedBox(width: 8),
+                  _buildFilterPill('Show'),
+                  const SizedBox(width: 8),
+                  _buildFilterPill('Dyno'),
                 ],
               ),
             ),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
 
-            // Events table
+            // Events list
             Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Events',
-                      style: Theme.of(context).textTheme.headlineLarge,
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 100, left: 16, right: 16),
+                itemCount: _events.length,
+                itemBuilder: (context, index) {
+                  final event = _events[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: AppleContentCard(
+                      title: event['title'],
+                      subtitle: '${event['location']} • ${event['date']}',
+                      description: event['description'],
+                      gradient: LinearGradient(
+                        colors: _getEventGradient(event['type']),
+                      ),
+                      tags: [
+                        event['type'],
+                        event['time'],
+                        event['maxAttendees'] != null
+                            ? '${event['attendees']}/${event['maxAttendees']}'
+                            : '${event['attendees']} going',
+                      ],
+                      onTap: () {
+                        // Handle event tap
+                      },
                     ),
-                    const SizedBox(height: 16),
-                    _buildEventsTable(context),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],
@@ -93,97 +152,51 @@ class EventsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEventsTable(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.primaryBlue,
-          width: 2,
-        ),
-      ),
-      child: Column(
-        children: [
-          // Header row
-          Container(
-            color: AppColors.primaryBlue,
-            child: Row(
-              children: [
-                _buildTableCell(context, 'Day', flex: 1, isHeader: true),
-                _buildTableCell(context, 'Group', flex: 2, isHeader: true),
-                _buildTableCell(context, 'Description', flex: 2, isHeader: true),
-                _buildTableCell(context, 'Location', flex: 2, isHeader: true),
-                _buildTableCell(context, 'Cost', flex: 1, isHeader: true),
-                _buildTableCell(context, 'Attendee Limit', flex: 1, isHeader: true),
-              ],
-            ),
-          ),
-
-          // Data row
-          Container(
-            color: AppColors.backgroundColor,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildTableCell(context, '2/31/26', flex: 1),
-                _buildTableCell(context, 'Pnw Oil Leak Club', flex: 2),
-                _buildTableCell(context, 'Group meet and drive', flex: 2),
-                _buildTableCell(context, '1234 ur moms', flex: 2),
-                _buildTableCell(context, '\$5.00', flex: 1),
-                _buildTableCell(context, '25', flex: 1),
-              ],
-            ),
-          ),
-
-          // Empty rows for design
-          ...List.generate(
-            7,
-            (index) => Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: AppColors.primaryBlue,
-                    width: 1,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+  Widget _buildFilterPill(String label) {
+    final isSelected = _selectedFilter == label;
+    return ApplePillButton(
+      label: label,
+      isSelected: isSelected,
+      onPressed: () {
+        setState(() {
+          _selectedFilter = label;
+        });
+      },
     );
   }
 
-  Widget _buildTableCell(
-    BuildContext context,
-    String text, {
-    required int flex,
-    bool isHeader = false,
-  }) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(
-              color: AppColors.primaryBlue,
-              width: 1,
-            ),
-          ),
-        ),
-        child: Text(
-          text,
-          style: isHeader
-              ? Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: AppColors.textWhite,
-                    fontWeight: FontWeight.bold,
-                  )
-              : Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.textWhite,
-                  ),
-        ),
-      ),
-    );
+  List<Color> _getEventGradient(String type) {
+    switch (type) {
+      case 'Drive':
+        return [
+          AppleTheme.appleBlue.withOpacity(0.4),
+          AppleTheme.appleGreen.withOpacity(0.4),
+        ];
+      case 'Track':
+        return [
+          AppleTheme.appleRed.withOpacity(0.4),
+          AppleTheme.appleOrange.withOpacity(0.4),
+        ];
+      case 'Show':
+        return [
+          AppleTheme.appleOrange.withOpacity(0.4),
+          AppleTheme.applePurple.withOpacity(0.4),
+        ];
+      case 'Dyno':
+        return [
+          AppleTheme.applePurple.withOpacity(0.4),
+          AppleTheme.appleRed.withOpacity(0.4),
+        ];
+      case 'Photo':
+        return [
+          AppleTheme.appleGreen.withOpacity(0.4),
+          AppleTheme.appleBlue.withOpacity(0.4),
+        ];
+      default:
+        return [
+          AppleTheme.appleBlue.withOpacity(0.4),
+          AppleTheme.applePurple.withOpacity(0.4),
+        ];
+    }
   }
 }

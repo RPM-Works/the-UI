@@ -1,72 +1,62 @@
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../widgets/news_card.dart';
+import '../constants/apple_theme.dart';
+import '../widgets/apple_glass_widgets.dart';
+import '../widgets/apple_content_card.dart';
+import '../widgets/apple_buttons.dart';
 
-/// Home Feed screen with personalized greeting and search
-class HomeScreen extends StatelessWidget {
+/// Home Feed screen with Apple-style UI
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _selectedFilter = 'All';
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 100), // Space for bottom nav
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
 
-              // Profile picture and greeting
+              // Header
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.primaryBlue,
-                          width: 3,
-                        ),
-                        color: AppColors.darkGray,
+                    Text(
+                      'Burnout',
+                      style: TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                        color: AppleTheme.appleBlue,
                       ),
-                      child: const Icon(
-                        Icons.person,
-                        color: AppColors.primaryBlue,
-                        size: 40,
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Your car enthusiast community',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.white60,
                       ),
                     ),
                   ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Greeting
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Hi, Chris',
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        color: AppColors.primaryBlue,
-                        fontSize: 32,
-                      ),
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              // Question
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'Whens the next drive?',
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: 28,
-                      ),
                 ),
               ),
 
@@ -75,54 +65,183 @@ class HomeScreen extends StatelessWidget {
               // Search bar
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.textWhite,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: AppColors.textGray,
-                          ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: AppColors.textGray,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.textWhite,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
-                      ),
-                    ),
-                    style: const TextStyle(color: AppColors.backgroundColor),
-                  ),
+                child: AppleSearchBar(
+                  controller: _searchController,
+                  placeholder: 'Search posts, users, or events...',
+                  onChanged: (value) {
+                    // Handle search
+                  },
+                  onClear: () {
+                    _searchController.clear();
+                  },
                 ),
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
 
-              // News section
-              const NewsCard(
-                heading: 'News:\nHeading',
-                description:
-                    'Keep up to date with latest car news, reviews, galleries, and announcements from the TG TV team on our Car News page. The Top Gear Editorial team publishes several news articles daily to make sure you are up to speed with the latest developments in the car motoring industry.',
+              // Stats row
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AppleStatDisplay(
+                        icon: Icons.event,
+                        label: 'Events',
+                        value: '12',
+                        iconColor: AppleTheme.appleGreen,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppleStatDisplay(
+                        icon: Icons.map,
+                        label: 'Routes',
+                        value: '8',
+                        iconColor: AppleTheme.appleOrange,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: AppleStatDisplay(
+                        icon: Icons.people,
+                        label: 'Members',
+                        value: '234',
+                        iconColor: AppleTheme.appleBlue,
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
 
-              // Additional content can go here
-              // For example, more news cards, featured posts, etc.
+              // Filter pills
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  children: [
+                    _buildFilterPill('All'),
+                    const SizedBox(width: 8),
+                    _buildFilterPill('Builds'),
+                    const SizedBox(width: 8),
+                    _buildFilterPill('Meets'),
+                    const SizedBox(width: 8),
+                    _buildFilterPill('Racing'),
+                    const SizedBox(width: 8),
+                    _buildFilterPill('News'),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // Content feed
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    AppleContentCard(
+                      title: 'Finally installed the turbo kit! 🔥',
+                      subtitle: '@boost_addict • 2h ago',
+                      description:
+                          'After 6 months of saving, the Garrett G30-900 is finally on. First pulls were insane - hitting 18psi on pump gas. Can\'t wait for dyno day!',
+                      gradient: LinearGradient(
+                        colors: [
+                          AppleTheme.appleRed.withOpacity(0.4),
+                          AppleTheme.appleOrange.withOpacity(0.4),
+                        ],
+                      ),
+                      tags: const ['Turbo', 'Build', 'GTR'],
+                      stats: const {
+                        'likes': 342,
+                        'comments': 89,
+                        'shares': 23,
+                      },
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 16),
+                    AppleContentCard(
+                      title: 'Sunset Canyon Run - THIS Weekend!',
+                      subtitle: '@socal_meets • 4h ago',
+                      description:
+                          'Join us Saturday 7AM at Angeles Crest. Classic route, epic views. All cars welcome! RSVP in comments. ☀️🏔️',
+                      gradient: LinearGradient(
+                        colors: [
+                          AppleTheme.appleBlue.withOpacity(0.4),
+                          AppleTheme.appleGreen.withOpacity(0.4),
+                        ],
+                      ),
+                      tags: const ['Meet', 'SoCal', 'Canyon'],
+                      stats: const {
+                        'likes': 567,
+                        'comments': 143,
+                        'shares': 91,
+                      },
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 16),
+                    AppleContentCard(
+                      title: 'Track day results - New PB! ⏱️',
+                      subtitle: '@circuit_king • 6h ago',
+                      description:
+                          'Buttonwillow yesterday. New suspension setup paid off - dropped 3 seconds off my best lap. 1:58.4 on street tires!',
+                      gradient: LinearGradient(
+                        colors: [
+                          AppleTheme.applePurple.withOpacity(0.4),
+                          AppleTheme.appleRed.withOpacity(0.4),
+                        ],
+                      ),
+                      tags: const ['Track', 'Racing', 'Time Attack'],
+                      stats: const {
+                        'likes': 891,
+                        'comments': 167,
+                        'shares': 45,
+                      },
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 16),
+                    AppleContentCard(
+                      title: 'Carbon fiber hood install 💪',
+                      subtitle: '@weight_savings • 8h ago',
+                      description:
+                          'Just installed the Seibon hood. Saved 35lbs off the front end. The fitment is perfect and the weave pattern is gorgeous!',
+                      gradient: LinearGradient(
+                        colors: [
+                          AppleTheme.applePurple.withOpacity(0.4),
+                          AppleTheme.appleGreen.withOpacity(0.4),
+                        ],
+                      ),
+                      tags: const ['Carbon', 'Weight Reduction', 'Mod'],
+                      stats: const {
+                        'likes': 234,
+                        'comments': 56,
+                        'shares': 12,
+                      },
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFilterPill(String label) {
+    final isSelected = _selectedFilter == label;
+    return ApplePillButton(
+      label: label,
+      isSelected: isSelected,
+      onPressed: () {
+        setState(() {
+          _selectedFilter = label;
+        });
+      },
     );
   }
 }
