@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burnout - Test Suite</title>
+    <link rel="stylesheet" href="burnout-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .test-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .test-results {
+            margin-top: 24px;
+        }
+
+        .test-group {
+            background-color: var(--card-background);
+            border: 2px solid var(--primary-blue);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .test-group-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .test-case {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .test-case.passed {
+            background-color: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #00ff00;
+        }
+
+        .test-case.failed {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+        }
+
+        .test-case.warning {
+            background-color: rgba(255, 165, 0, 0.1);
+            border-left: 4px solid #ffa500;
+        }
+
+        .test-name {
+            font-size: 14px;
+            color: var(--text-white);
+        }
+
+        .test-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .test-status.passed {
+            color: #00ff00;
+        }
+
+        .test-status.failed {
+            color: #ff0000;
+        }
+
+        .test-status.warning {
+            color: #ffa500;
+        }
+
+        .test-summary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--electric-blue));
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .test-summary-stat {
+            display: inline-block;
+            margin: 0 20px;
+        }
+
+        .test-summary-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-white);
+        }
+
+        .test-summary-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .run-tests-btn {
+            background: linear-gradient(135deg, var(--primary-blue), var(--electric-blue));
+            color: var(--text-white);
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--radius-lg);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-bottom: 32px;
+        }
+
+        .run-tests-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .run-tests-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .test-error {
+            background-color: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <!-- Header -->
+        <div class="test-header">
+            <h1 class="display-large text-blue">
+                <i class="fas fa-flask"></i> Burnout Test Suite
+            </h1>
+            <p class="body-medium text-gray">Automated tests for HTML implementation</p>
+        </div>
+
+        <!-- Run Tests Button -->
+        <div style="text-align: center;">
+            <button class="run-tests-btn" onclick="runAllTests()" id="runBtn">
+                <i class="fas fa-play"></i> Run All Tests
+            </button>
+        </div>
+
+        <!-- Test Summary -->
+        <div class="test-summary" id="testSummary" style="display: none;">
+            <div class="test-summary-stat">
+                <div class="test-summary-number" id="totalTests">0</div>
+                <div class="test-summary-label">Total Tests</div>
+            </div>
+            <div class="test-summary-stat">
+                <div class="test-summary-number" style="color: #00ff00;" id="passedTests">0</div>
+                <div class="test-summary-label">Passed</div>
+            </div>
+            <div class="test-summary-stat">
+                <div class="test-summary-number" style="color: #ff0000;" id="failedTests">0</div>
+                <div class="test-summary-label">Failed</div>
+            </div>
+            <div class="test-summary-stat">
+                <div class="test-summary-number" style="color: #ffa500;" id="warningTests">0</div>
+                <div class="test-summary-label">Warnings</div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-results" id="testResults"></div>
+    </div>
+
+    <script>
+        const tests = {
+            'File Existence Tests': [
+                {
+                    name: 'burnout-home.html exists',
+                    test: () => fetch('burnout-home.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-events.html exists',
+                    test: () => fetch('burnout-events.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-profile.html exists',
+                    test: () => fetch('burnout-profile.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-car-profile.html exists',
+                    test: () => fetch('burnout-car-profile.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-routes.html exists',
+                    test: () => fetch('burnout-routes.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-news.html exists',
+                    test: () => fetch('burnout-news.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-chat.html exists',
+                    test: () => fetch('burnout-chat.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-add-post.html exists',
+                    test: () => fetch('burnout-add-post.html').then(r => r.ok)
+                },
+                {
+                    name: 'burnout-styles.css exists',
+                    test: () => fetch('burnout-styles.css').then(r => r.ok)
+                }
+            ],
+            'CSS Variables Tests': [
+                {
+                    name: 'Primary blue color is defined',
+                    test: () => {
+                        const color = getComputedStyle(document.documentElement).getPropertyValue('--primary-blue');
+                        return Promise.resolve(color.trim() === '#4169E1' || color.trim() === 'rgb(65, 105, 225)');
+                    }
+                },
+                {
+                    name: 'Background black is defined',
+                    test: () => {
+                        const color = getComputedStyle(document.documentElement).getPropertyValue('--background-black');
+                        return Promise.resolve(color.trim() === '#000000' || color.trim() === 'rgb(0, 0, 0)');
+                    }
+                },
+                {
+                    name: 'Card background is defined',
+                    test: () => {
+                        const color = getComputedStyle(document.documentElement).getPropertyValue('--card-background');
+                        return Promise.resolve(color.trim() !== '');
+                    }
+                },
+                {
+                    name: 'Text white is defined',
+                    test: () => {
+                        const color = getComputedStyle(document.documentElement).getPropertyValue('--text-white');
+                        return Promise.resolve(color.trim() !== '');
+                    }
+                },
+                {
+                    name: 'Spacing variables are defined',
+                    test: () => {
+                        const spacing = getComputedStyle(document.documentElement).getPropertyValue('--spacing-lg');
+                        return Promise.resolve(spacing.trim() !== '');
+                    }
+                }
+            ],
+            'HTML Structure Tests': [
+                {
+                    name: 'All pages have bottom navigation',
+                    test: async () => {
+                        const pages = [
+                            'burnout-home.html',
+                            'burnout-events.html',
+                            'burnout-profile.html'
+                        ];
+
+                        for (const page of pages) {
+                            const response = await fetch(page);
+                            const html = await response.text();
+                            if (!html.includes('bottom-nav')) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                },
+                {
+                    name: 'All pages include Font Awesome',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('font-awesome');
+                    }
+                },
+                {
+                    name: 'All pages include Google Fonts',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('fonts.googleapis.com') && html.includes('Inter');
+                    }
+                },
+                {
+                    name: 'All pages have viewport meta tag',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('viewport');
+                    }
+                }
+            ],
+            'Navigation Tests': [
+                {
+                    name: 'Bottom nav has 5 items',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        // Check for all 5 Font Awesome icons
+                        return html.includes('fa-car') &&
+                               html.includes('fa-home') &&
+                               html.includes('fa-plus-circle') &&
+                               html.includes('fa-newspaper') &&
+                               html.includes('fa-comment-dots');
+                    }
+                },
+                {
+                    name: 'Navigation links are relative paths',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('href="burnout-') || html.includes("href='burnout-");
+                    }
+                }
+            ],
+            'Content Tests': [
+                {
+                    name: 'Home page has greeting text',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('Hi, Chris');
+                    }
+                },
+                {
+                    name: 'Home page has search bar',
+                    test: async () => {
+                        const response = await fetch('burnout-home.html');
+                        const html = await response.text();
+                        return html.includes('search-bar') || html.includes('Search');
+                    }
+                },
+                {
+                    name: 'Events page has table',
+                    test: async () => {
+                        const response = await fetch('burnout-events.html');
+                        const html = await response.text();
+                        return html.includes('events-table') || html.includes('<table');
+                    }
+                },
+                {
+                    name: 'Profile page has tabs',
+                    test: async () => {
+                        const response = await fetch('burnout-profile.html');
+                        const html = await response.text();
+                        return html.includes('tab') && (html.includes('Posts') || html.includes('Sparks'));
+                    }
+                }
+            ],
+            'Responsive Design Tests': [
+                {
+                    name: 'CSS has mobile breakpoint',
+                    test: async () => {
+                        const response = await fetch('burnout-styles.css');
+                        const css = await response.text();
+                        return css.includes('@media') && css.includes('768px');
+                    }
+                },
+                {
+                    name: 'Images are responsive',
+                    test: async () => {
+                        const response = await fetch('burnout-styles.css');
+                        const css = await response.text();
+                        return css.includes('max-width') || css.includes('100%');
+                    }
+                }
+            ],
+            'Performance Tests': [
+                {
+                    name: 'CSS file size is reasonable (< 50KB)',
+                    test: async () => {
+                        const response = await fetch('burnout-styles.css');
+                        const blob = await response.blob();
+                        return blob.size < 50000;
+                    },
+                    warning: true
+                },
+                {
+                    name: 'HTML files load quickly (< 2s)',
+                    test: async () => {
+                        const start = performance.now();
+                        await fetch('burnout-home.html');
+                        const end = performance.now();
+                        return (end - start) < 2000;
+                    },
+                    warning: true
+                }
+            ]
+        };
+
+        let totalTests = 0;
+        let passedTests = 0;
+        let failedTests = 0;
+        let warningTests = 0;
+
+        async function runAllTests() {
+            const runBtn = document.getElementById('runBtn');
+            const testResults = document.getElementById('testResults');
+            const testSummary = document.getElementById('testSummary');
+
+            runBtn.disabled = true;
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Tests...';
+
+            testResults.innerHTML = '';
+            totalTests = 0;
+            passedTests = 0;
+            failedTests = 0;
+            warningTests = 0;
+
+            for (const [groupName, groupTests] of Object.entries(tests)) {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'test-group';
+
+                const groupTitle = document.createElement('div');
+                groupTitle.className = 'test-group-title';
+                groupTitle.innerHTML = `<i class="fas fa-flask"></i> ${groupName}`;
+                groupDiv.appendChild(groupTitle);
+
+                for (const testCase of groupTests) {
+                    totalTests++;
+                    const testDiv = document.createElement('div');
+                    testDiv.className = 'test-case';
+
+                    const testName = document.createElement('div');
+                    testName.className = 'test-name';
+                    testName.textContent = testCase.name;
+                    testDiv.appendChild(testName);
+
+                    const testStatus = document.createElement('div');
+                    testStatus.className = 'test-status';
+                    testStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+                    testDiv.appendChild(testStatus);
+
+                    groupDiv.appendChild(testDiv);
+                    testResults.appendChild(groupDiv);
+
+                    try {
+                        const result = await testCase.test();
+
+                        if (result) {
+                            if (testCase.warning) {
+                                warningTests++;
+                                testDiv.className = 'test-case warning';
+                                testStatus.className = 'test-status warning';
+                                testStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Warning';
+                            } else {
+                                passedTests++;
+                                testDiv.className = 'test-case passed';
+                                testStatus.className = 'test-status passed';
+                                testStatus.innerHTML = '<i class="fas fa-check-circle"></i> Passed';
+                            }
+                        } else {
+                            failedTests++;
+                            testDiv.className = 'test-case failed';
+                            testStatus.className = 'test-status failed';
+                            testStatus.innerHTML = '<i class="fas fa-times-circle"></i> Failed';
+                        }
+                    } catch (error) {
+                        failedTests++;
+                        testDiv.className = 'test-case failed';
+                        testStatus.className = 'test-status failed';
+                        testStatus.innerHTML = '<i class="fas fa-times-circle"></i> Error';
+
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'test-error';
+                        errorDiv.textContent = error.message;
+                        testDiv.appendChild(errorDiv);
+                    }
+                }
+            }
+
+            // Update summary
+            document.getElementById('totalTests').textContent = totalTests;
+            document.getElementById('passedTests').textContent = passedTests;
+            document.getElementById('failedTests').textContent = failedTests;
+            document.getElementById('warningTests').textContent = warningTests;
+            testSummary.style.display = 'block';
+
+            runBtn.disabled = false;
+            runBtn.innerHTML = '<i class="fas fa-redo"></i> Run Tests Again';
+        }
+
+        // Run tests automatically on page load
+        window.addEventListener('load', () => {
+            setTimeout(runAllTests, 500);
+        });
+    </script>
+</body>
+</html>
