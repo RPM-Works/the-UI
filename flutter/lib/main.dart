@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'theme/app_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/profile_screen.dart';
+import 'screens/events_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -133,17 +134,43 @@ class MainNavigator extends StatefulWidget {
 class _MainNavigatorState extends State<MainNavigator> {
   int _currentIndex = 1; // Start at Home
 
-  final List<Widget> _screens = [
-    const ProfileScreen(),
-    const HomeScreen(),
-    const PlaceholderScreen(title: 'Posts'),
-    const PlaceholderScreen(title: 'News'),
-    const PlaceholderScreen(title: 'Chat'),
-  ];
+  void _onNavigationTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return _screens[_currentIndex];
+    Widget currentScreen;
+
+    switch (_currentIndex) {
+      case 0:
+        currentScreen = const PlaceholderScreen(title: 'Routes');
+        break;
+      case 1:
+        currentScreen = const HomeScreen();
+        break;
+      case 2:
+        currentScreen = const EventsScreen();
+        break;
+      case 3:
+        currentScreen = const PlaceholderScreen(title: 'News');
+        break;
+      case 4:
+        currentScreen = const PlaceholderScreen(title: 'Chat');
+        break;
+      default:
+        currentScreen = const HomeScreen();
+    }
+
+    // Wrap the screen with navigation bar
+    return Stack(
+      children: [
+        currentScreen,
+        // The GlassBottomNavBar is already included in each screen
+      ],
+    );
   }
 }
 

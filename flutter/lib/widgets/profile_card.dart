@@ -29,28 +29,19 @@ class ProfileCard extends StatefulWidget {
 class _ProfileCardState extends State<ProfileCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _rotationAnimation;
-  bool _isExpanded = false;
+  late Animation<double> _flipAnimation;
+  bool _isFlipped = false;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
 
-    // Spring animation for scale
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.elasticOut,
-      ),
-    );
-
-    // 3D rotation effect
-    _rotationAnimation = Tween<double>(begin: 0.0, end: 0.02).animate(
+    // Flip animation (0 to pi for 180 degree flip)
+    _flipAnimation = Tween<double>(begin: 0.0, end: 3.14159).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOutCubic,
@@ -65,12 +56,12 @@ class _ProfileCardState extends State<ProfileCard>
   }
 
   void _handleTap() {
-    if (_isExpanded) {
+    if (_isFlipped) {
       _controller.reverse();
     } else {
       _controller.forward();
     }
-    setState(() => _isExpanded = !_isExpanded);
+    setState(() => _isFlipped = !_isFlipped);
     widget.onTap?.call();
   }
 
@@ -81,17 +72,31 @@ class _ProfileCardState extends State<ProfileCard>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: Transform(
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.001) // Perspective
-              ..rotateX(_rotationAnimation.value)
-              ..rotateY(_rotationAnimation.value * 0.5),
-            alignment: Alignment.center,
-            child: GestureDetector(
-              onTap: _handleTap,
-              child: Container(
+        // Determine which side to show
+        final angle = _flipAnimation.value;
+        final isFrontVisible = angle < 1.5708; // Less than 90 degrees
+
+        return Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001) // Perspective
+            ..rotateY(angle),
+          alignment: Alignment.center,
+          child: isFrontVisible
+              ? _buildFrontCard(isDark)
+              : Transform(
+                  transform: Matrix4.identity()..rotateY(3.14159), // Flip back
+                  alignment: Alignment.center,
+                  child: _buildBackCard(isDark),
+                ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFrontCard(bool isDark) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
@@ -284,8 +289,299 @@ class _ProfileCardState extends State<ProfileCard>
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackCard(bool isDark) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 30,
+              offset: const Offset(0, 15),
+              spreadRadius: 5,
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: isDark
+                      ? [
+                          Colors.white.withOpacity(0.15),
+                          Colors.white.withOpacity(0.05),
+                        ]
+                      : [
+                          Colors.white.withOpacity(0.4),
+                          Colors.white.withOpacity(0.2),
+                        ],
+                ),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // QR Code Section
+                    Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.primaryBlue.withOpacity(0.2),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.qr_code_2,
+                            size: 140,
+                            color: AppTheme.primaryBlue,
+                          ),
+                          Text(
+                            'Scan to Connect',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.primaryBlue,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Username
+                    Text(
+                      widget.username,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.primaryBlue,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Achievements/Badges
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? Colors.white.withOpacity(0.1)
+                            : Colors.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.trophy,
+                                size: 16,
+                                color: AppTheme.accentOrange,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Achievements',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark ? Colors.white : Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _buildBadge(FontAwesomeIcons.fire, 'Track Master', isDark),
+                              _buildBadge(FontAwesomeIcons.star, 'Top Builder', isDark),
+                              _buildBadge(FontAwesomeIcons.crown, 'Legend', isDark),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Social Links
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? Colors.white.withOpacity(0.1)
+                            : Colors.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildSocialButton(FontAwesomeIcons.instagram, isDark),
+                          _buildSocialButton(FontAwesomeIcons.youtube, isDark),
+                          _buildSocialButton(FontAwesomeIcons.tiktok, isDark),
+                          _buildSocialButton(FontAwesomeIcons.twitter, isDark),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Action Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 44,
+                            decoration: BoxDecoration(
+                              gradient: AppTheme.primaryGradient,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: AppTheme.buttonShadow,
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {},
+                                borderRadius: BorderRadius.circular(12),
+                                child: const Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.share, color: Colors.white, size: 18),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Share',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.white.withOpacity(0.1)
+                                : Colors.white.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.settings,
+                            color: isDark ? Colors.white : Colors.black87,
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBadge(IconData icon, String label, bool isDark) {
+    return Column(
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            gradient: AppTheme.primaryGradient,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primaryBlue.withOpacity(0.3),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          child: Center(
+            child: FaIcon(
+              icon,
+              size: 18,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 10,
+            color: isDark ? Colors.white70 : Colors.black54,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialButton(IconData icon, bool isDark) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.white.withOpacity(0.1)
+            : Colors.white.withOpacity(0.5),
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+        ),
+      ),
+      child: Center(
+        child: FaIcon(
+          icon,
+          size: 20,
+          color: AppTheme.primaryBlue,
+        ),
+      ),
     );
   }
 
